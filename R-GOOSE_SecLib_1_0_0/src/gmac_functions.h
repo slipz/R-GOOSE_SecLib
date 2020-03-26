@@ -19,8 +19,6 @@
 
 #define ASSERT(x) assert(x)
 
-typedef unsigned char byte;
-
 int
 gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest);
 

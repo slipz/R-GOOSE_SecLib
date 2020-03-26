@@ -10,6 +10,7 @@
  *
  * This header file declares the several funtions implemented on the file hmac_functions.c.
  * Also, this file includes all of the other files and libraries used on the HMAC context (OpenSSL, C Standard Libraries).
+ * @note This library was tested using OpenSSL 1.1.1 library. 
  * @see https://www.openssl.org/docs/man1.1.1/man3/HMAC.html
  * @see https://www.openssl.org/docs/man1.1.1/man7/evp.html
  */
@@ -25,16 +26,10 @@
 /**
  * @brief Function that generates an HMAC-SHA256-80 Tag
  *
- * Description of what the function does. This part may refer to the parameters
- * of the function, like @p param1 or @p param2. A word of code can also be
- * inserted like @c this which is equivalent to <tt>this</tt> and can be useful
- * to say that the function returns a @c void or an @c int. If you want to have
- * more than one word in typewriter font, then just use @<tt@>.
- *
  * This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
- * tag and stores it on @p dest. 
+ * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms. 
  *
  * EXPECTED BEHAVIOR ?
  *
@@ -61,23 +56,19 @@
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
+ * to store the HMAC tag. 
  */
 void 
 hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
 
 /**
- * @brief Function that generates an HMAC-SHA256-80 Tag
+ * @brief Function that generates an HMAC-SHA256-128 Tag
  *
- * Description of what the function does. This part may refer to the parameters
- * of the function, like @p param1 or @p param2. A word of code can also be
- * inserted like @c this which is equivalent to <tt>this</tt> and can be useful
- * to say that the function returns a @c void or an @c int. If you want to have
- * more than one word in typewriter font, then just use @<tt@>.
- *
- * This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as
+ * This function generates an HMAC Tag of 128bits (16bytes) long, using SHA256 as
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
- * tag and stores it on @p dest. 
+ * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
  * EXPECTED BEHAVIOR ?
  *
@@ -92,7 +83,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * 
  * int data_size = 8, key_size = 20;
  *
- * hmac_SHA256_80(data, key, data_size, key_size, &dest);
+ * hmac_SHA256_128(data, key, data_size, key_size, &dest);
  *
  * print_array_hex(dest);									// pseudo-function that prints dest in hex format
  * @endcode
@@ -104,22 +95,18 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
+ * to store the HMAC tag. 
  */
 hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
 
 /**
- * @brief Function that generates an HMAC-SHA256-80 Tag
- *
- * Description of what the function does. This part may refer to the parameters
- * of the function, like @p param1 or @p param2. A word of code can also be
- * inserted like @c this which is equivalent to <tt>this</tt> and can be useful
- * to say that the function returns a @c void or an @c int. If you want to have
- * more than one word in typewriter font, then just use @<tt@>.
- *
- * This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as
+ * @brief Function that generates an HMAC-SHA256-256 Tag
+ * 
+ * This function generates an HMAC Tag of 256bits (32bytes) long, using SHA256 as
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
- * tag and stores it on @p dest. 
+ * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
  * EXPECTED BEHAVIOR ?
  *
@@ -134,7 +121,7 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * 
  * int data_size = 8, key_size = 20;
  *
- * hmac_SHA256_80(data, key, data_size, key_size, &dest);
+ * hmac_SHA256_256(data, key, data_size, key_size, &dest);
  *
  * print_array_hex(dest);									// pseudo-function that prints dest in hex format
  * @endcode
@@ -146,23 +133,19 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
+ * to store the HMAC tag. 
  */
 void
 hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
 
 /**
- * @brief Function that generates an HMAC-SHA256-80 Tag
+ * @brief Function that generates an HMAC-BLAKE2b_80 Tag
  *
- * Description of what the function does. This part may refer to the parameters
- * of the function, like @p param1 or @p param2. A word of code can also be
- * inserted like @c this which is equivalent to <tt>this</tt> and can be useful
- * to say that the function returns a @c void or an @c int. If you want to have
- * more than one word in typewriter font, then just use @<tt@>.
- *
- * This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as
+ * This function generates an HMAC Tag of 80bits (10bytes) long, using BLAKE2b as
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
- * tag and stores it on @p dest. 
+ * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
  * EXPECTED BEHAVIOR ?
  *
@@ -177,7 +160,7 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * 
  * int data_size = 8, key_size = 20;
  *
- * hmac_SHA256_80(data, key, data_size, key_size, &dest);
+ * hmac_BLAKE2b_80(data, key, data_size, key_size, &dest);
  *
  * print_array_hex(dest);									// pseudo-function that prints dest in hex format
  * @endcode
@@ -194,18 +177,12 @@ void
 hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
 
 /**
- * @brief Function that generates an HMAC-SHA256-80 Tag
+ * @brief Function that generates an HMAC-BLAKE2s_80 Tag
  *
- * Description of what the function does. This part may refer to the parameters
- * of the function, like @p param1 or @p param2. A word of code can also be
- * inserted like @c this which is equivalent to <tt>this</tt> and can be useful
- * to say that the function returns a @c void or an @c int. If you want to have
- * more than one word in typewriter font, then just use @<tt@>.
- *
- * This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as
+ * This function generates an HMAC Tag of 80bits (10bytes) long, using BLAKE2s as
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
- * tag and stores it on @p dest. 
+ * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
  * EXPECTED BEHAVIOR ?
  *
@@ -220,7 +197,7 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * 
  * int data_size = 8, key_size = 20;
  *
- * hmac_SHA256_80(data, key, data_size, key_size, &dest);
+ * hmac_BLAKE2s_80(data, key, data_size, key_size, &dest);
  *
  * print_array_hex(dest);									// pseudo-function that prints dest in hex format
  * @endcode
