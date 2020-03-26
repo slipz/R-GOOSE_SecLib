@@ -2,6 +2,14 @@
 	File declaring hmac functions pointed in IEC 62351-6:2020 	
 */
 
+/*! \mainpage R-GOOSE HMAC/GMAC Generation Library
+ *
+ * 
+ *	
+ *
+ * 
+ */
+
 /**
  * @file hmac_functions.h
  * @author Eduardo Andrade
@@ -30,8 +38,6 @@
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
  * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms. 
- *
- * EXPECTED BEHAVIOR ?
  *
  * Below is and example of usage:
  * @code
@@ -70,8 +76,6 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
  * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
- * EXPECTED BEHAVIOR ?
- *
  * Below is and example of usage:
  * @code
  *
@@ -107,8 +111,6 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
  * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
- *
- * EXPECTED BEHAVIOR ?
  *
  * Below is and example of usage:
  * @code
@@ -147,8 +149,6 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
  * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
  *
- * EXPECTED BEHAVIOR ?
- *
  * Below is and example of usage:
  * @code
  *
@@ -183,8 +183,6 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * its base hashing algorithm. It receives @p data, @p key and @p dest as pointers,
  * and both data and key sizes as <tt>size_t</tt>. The functions calculates the MAC
  * tag and stores it on @p dest. It uses OpenSSL Library to implement such algorithms.
- *
- * EXPECTED BEHAVIOR ?
  *
  * Below is and example of usage:
  * @code

@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['hmac_5fblake2b_5f80_7',['hmac_BLAKE2b_80',['../hmac__functions_8h.html#a40f229c2bee821c9bc451fc88cb1f747',1,'hmac_functions.c']]],
-  ['hmac_5fblake2s_5f80_8',['hmac_BLAKE2s_80',['../hmac__functions_8h.html#a1575130d6446f92fa754cb118b5f32ca',1,'hmac_functions.c']]],
-  ['hmac_5fsha256_5f128_9',['hmac_SHA256_128',['../hmac__functions_8h.html#a418e0f50ba9ed7fe6c8b6648748ecfc3',1,'hmac_functions.c']]],
-  ['hmac_5fsha256_5f256_10',['hmac_SHA256_256',['../hmac__functions_8h.html#a84fdc82094f0123a24cc817045af2840',1,'hmac_functions.c']]],
-  ['hmac_5fsha256_5f80_11',['hmac_SHA256_80',['../hmac__functions_8h.html#a6d091892f0f0bebb4d70e468c877faa0',1,'hmac_functions.c']]]
+  ['gmac_5faes128_5f128_14',['gmac_AES128_128',['../gmac__functions_8h.html#a2db5f3a5690275b15cf1fef34b482805',1,'gmac_functions.c']]],
+  ['gmac_5faes128_5f64_15',['gmac_AES128_64',['../gmac__functions_8h.html#a19b4e73eab304bc33e542ce206b18d00',1,'gmac_functions.c']]],
+  ['gmac_5faes256_5f128_16',['gmac_AES256_128',['../gmac__functions_8h.html#aaeea137663e5d9cb2409fb1ab0f6526e',1,'gmac_functions.c']]],
+  ['gmac_5faes256_5f64_17',['gmac_AES256_64',['../gmac__functions_8h.html#a1465c4838ad2bdf586910206350d257d',1,'gmac_functions.c']]]
 ];

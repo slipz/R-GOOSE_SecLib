@@ -155,7 +155,6 @@ Functions</h2></td></tr>
 
 <p>Function that generates an HMAC-BLAKE2b_80 Tag. </p>
 <p>This function generates an HMAC Tag of 80bits (10bytes) long, using BLAKE2b as its base hashing algorithm. It receives <code>data</code>, <code>key</code> and <code>dest</code> as pointers, and both data and key sizes as <code>size_t</code>. The functions calculates the MAC tag and stores it on <code>dest</code>. It uses OpenSSL Library to implement such algorithms.</p>
-<p>EXPECTED BEHAVIOR ?</p>
 <p>Below is and example of usage: </p><div class="fragment"><div class="line">uint8_t* dest = NULL;</div>
 <div class="line">uint8_t* key = (uint8_t*)malloc(<span class="keyword">sizeof</span>(uint8_t)*20);</div>
 <div class="line">set_key(key);                                           <span class="comment">// pseudo-function that populates key </span></div>
@@ -228,7 +227,6 @@ Functions</h2></td></tr>
 
 <p>Function that generates an HMAC-BLAKE2s_80 Tag. </p>
 <p>This function generates an HMAC Tag of 80bits (10bytes) long, using BLAKE2s as its base hashing algorithm. It receives <code>data</code>, <code>key</code> and <code>dest</code> as pointers, and both data and key sizes as <code>size_t</code>. The functions calculates the MAC tag and stores it on <code>dest</code>. It uses OpenSSL Library to implement such algorithms.</p>
-<p>EXPECTED BEHAVIOR ?</p>
 <p>Below is and example of usage: </p><div class="fragment"><div class="line">uint8_t* dest = NULL;</div>
 <div class="line">uint8_t* key = (uint8_t*)malloc(<span class="keyword">sizeof</span>(uint8_t)*20);</div>
 <div class="line">set_key(key);                                           <span class="comment">// pseudo-function that populates key </span></div>
@@ -301,7 +299,6 @@ Functions</h2></td></tr>
 
 <p>Function that generates an HMAC-SHA256-128 Tag. </p>
 <p>This function generates an HMAC Tag of 128bits (16bytes) long, using SHA256 as its base hashing algorithm. It receives <code>data</code>, <code>key</code> and <code>dest</code> as pointers, and both data and key sizes as <code>size_t</code>. The functions calculates the MAC tag and stores it on <code>dest</code>. It uses OpenSSL Library to implement such algorithms.</p>
-<p>EXPECTED BEHAVIOR ?</p>
 <p>Below is and example of usage: </p><div class="fragment"><div class="line">uint8_t* dest = NULL;</div>
 <div class="line">uint8_t* key = (uint8_t*)malloc(<span class="keyword">sizeof</span>(uint8_t)*20);</div>
 <div class="line">set_key(key);                                           <span class="comment">// pseudo-function that populates key </span></div>
@@ -375,7 +372,6 @@ Functions</h2></td></tr>
 
 <p>Function that generates an HMAC-SHA256-256 Tag. </p>
 <p>This function generates an HMAC Tag of 256bits (32bytes) long, using SHA256 as its base hashing algorithm. It receives <code>data</code>, <code>key</code> and <code>dest</code> as pointers, and both data and key sizes as <code>size_t</code>. The functions calculates the MAC tag and stores it on <code>dest</code>. It uses OpenSSL Library to implement such algorithms.</p>
-<p>EXPECTED BEHAVIOR ?</p>
 <p>Below is and example of usage: </p><div class="fragment"><div class="line">uint8_t* dest = NULL;</div>
 <div class="line">uint8_t* key = (uint8_t*)malloc(<span class="keyword">sizeof</span>(uint8_t)*20);</div>
 <div class="line">set_key(key);                                           <span class="comment">// pseudo-function that populates key </span></div>
@@ -449,7 +445,6 @@ Functions</h2></td></tr>
 
 <p>Function that generates an HMAC-SHA256-80 Tag. </p>
 <p>This function generates an HMAC Tag of 80bits (10bytes) long, using SHA256 as its base hashing algorithm. It receives <code>data</code>, <code>key</code> and <code>dest</code> as pointers, and both data and key sizes as <code>size_t</code>. The functions calculates the MAC tag and stores it on <code>dest</code>. It uses OpenSSL Library to implement such algorithms.</p>
-<p>EXPECTED BEHAVIOR ?</p>
 <p>Below is and example of usage: </p><div class="fragment"><div class="line">uint8_t* dest = NULL;</div>
 <div class="line">uint8_t* key = (uint8_t*)malloc(<span class="keyword">sizeof</span>(uint8_t)*20);</div>
 <div class="line">set_key(key);                                           <span class="comment">// pseudo-function that populates key </span></div>

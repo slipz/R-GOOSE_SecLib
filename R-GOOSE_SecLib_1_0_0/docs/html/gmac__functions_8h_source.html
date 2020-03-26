@@ -69,41 +69,43 @@ $(function() {
 <div class="title">gmac_functions.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<a href="gmac__functions_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">    File declaring gmac functions pointed in IEC 62351-6:2020   </span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;openssl/bio.h&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;openssl/evp.h&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;assert.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;limits.h&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;errno.h&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;openssl/bn.h&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;openssl/rsa.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;openssl/pem.h&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;openssl/rand.h&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define ASSERT(x) assert(x)</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> byte;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;openssl/bio.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;openssl/evp.h&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;assert.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;limits.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;errno.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;openssl/bn.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;openssl/rsa.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;openssl/pem.h&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;openssl/rand.h&gt;</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;gmac_AES256_128(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define ASSERT(x) assert(x)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<a class="code" href="gmac__functions_8h.html#a19b4e73eab304bc33e542ce206b18d00">gmac_AES128_64</a>(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<a class="code" href="gmac__functions_8h.html#a2db5f3a5690275b15cf1fef34b482805">gmac_AES128_128</a>(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<a class="code" href="gmac__functions_8h.html#a1465c4838ad2bdf586910206350d257d">gmac_AES256_64</a>(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<a class="code" href="gmac__functions_8h.html#aaeea137663e5d9cb2409fb1ab0f6526e">gmac_AES256_128</a>(uint8_t* data, uint8_t* key, uint8_t* iv ,<span class="keywordtype">size_t</span> data_size, <span class="keywordtype">size_t</span> iv_size, <span class="keywordtype">void</span>** dest);</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="agmac__functions_8h_html_a1465c4838ad2bdf586910206350d257d"><div class="ttname"><a href="gmac__functions_8h.html#a1465c4838ad2bdf586910206350d257d">gmac_AES256_64</a></div><div class="ttdeci">int gmac_AES256_64(uint8_t *data, uint8_t *key, uint8_t *iv, size_t data_size, size_t iv_size, void **dest)</div><div class="ttdoc">Function that generates an gmac_AES256_64 Tag.</div><div class="ttdef"><b>Definition:</b> gmac_functions.c:136</div></div>
+<div class="ttc" id="agmac__functions_8h_html_a19b4e73eab304bc33e542ce206b18d00"><div class="ttname"><a href="gmac__functions_8h.html#a19b4e73eab304bc33e542ce206b18d00">gmac_AES128_64</a></div><div class="ttdeci">int gmac_AES128_64(uint8_t *data, uint8_t *key, uint8_t *iv, size_t data_size, size_t iv_size, void **dest)</div><div class="ttdoc">Function that generates an gmac_AES128_64 Tag.</div><div class="ttdef"><b>Definition:</b> gmac_functions.c:11</div></div>
+<div class="ttc" id="agmac__functions_8h_html_aaeea137663e5d9cb2409fb1ab0f6526e"><div class="ttname"><a href="gmac__functions_8h.html#aaeea137663e5d9cb2409fb1ab0f6526e">gmac_AES256_128</a></div><div class="ttdeci">int gmac_AES256_128(uint8_t *data, uint8_t *key, uint8_t *iv, size_t data_size, size_t iv_size, void **dest)</div><div class="ttdoc">Function that generates an gmac_AES256_128 Tag.</div><div class="ttdef"><b>Definition:</b> gmac_functions.c:202</div></div>
+<div class="ttc" id="agmac__functions_8h_html_a2db5f3a5690275b15cf1fef34b482805"><div class="ttname"><a href="gmac__functions_8h.html#a2db5f3a5690275b15cf1fef34b482805">gmac_AES128_128</a></div><div class="ttdeci">int gmac_AES128_128(uint8_t *data, uint8_t *key, uint8_t *iv, size_t data_size, size_t iv_size, void **dest)</div><div class="ttdoc">Function that generates an gmac_AES128_128 Tag.</div><div class="ttdef"><b>Definition:</b> gmac_functions.c:75</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
