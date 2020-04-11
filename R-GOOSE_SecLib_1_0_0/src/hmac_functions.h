@@ -102,6 +102,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
  * to store the HMAC tag. 
  */
+void
 hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
 
 /**
