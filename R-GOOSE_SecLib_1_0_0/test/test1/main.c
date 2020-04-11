@@ -45,36 +45,37 @@ int main(int argc, char** argv){
 	*(key + 18) = 0x0b;
 	*(key + 19) = 0x0b;
 
-	uint8_t* data = (uint8_t*)malloc(sizeof(uint8_t)*8);
-	*(data + 0) = 0x48;
-	*(data + 1) = 0x69;
-	*(data + 2) = 0x20;
-	*(data + 3) = 0x54;
-	*(data + 4) = 0x68;
-	*(data + 5) = 0x65;
-	*(data + 6) = 0x72;
-	*(data + 7) = 0x65;
+	int data_size = 196, key_size = 20;
 
-	int data_size = 8, key_size = 20;
+	uint8_t* data = (uint8_t*)malloc(sizeof(uint8_t)*data_size);
+	memset(data, 0x23, data_size);
+	
 
-	struct timespec start, end;
-  	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	hmac_SHA256_80(data, key, data_size, key_size, &dest);
+	for(int j = 0; j<500; j++){
 
-	clock_gettime(CLOCK_MONOTONIC, &end);
+		struct timespec start, end;
+	  	clock_gettime(CLOCK_MONOTONIC, &start);
 
-	printf("Calculated tag:\n  ");
-    for(int i = 0; i < 10; i++){
-        printf("%02x", dest[i]);
-    }
-	printf("\n");
+		hmac_SHA256_128(data, key, data_size, key_size, &dest);
 
-	uint64_t timeElapsed = timespecDiff(&end, &start);
+		clock_gettime(CLOCK_MONOTONIC, &end);
 
-  	long seconds = end.tv_sec - start.tv_sec;
-  	long ns = end.tv_nsec - start.tv_nsec;
+		/*printf("Calculated tag:\n  ");
+	    for(int i = 0; i < 10; i++){
+	        printf("%02x", dest[i]);
+	    }
+		printf("\n");*/
 
-  	printf("total secs: %lf\n",(double)seconds + (double)ns/(double)1000000000);
+		uint64_t timeElapsed = timespecDiff(&end, &start);
+
+	  	long seconds = end.tv_sec - start.tv_sec;
+	  	long ns = end.tv_nsec - start.tv_nsec;
+
+	  	printf("%lf\n",(double)seconds + (double)ns/(double)1000000000);
+
+	}
+
+
 
 }
