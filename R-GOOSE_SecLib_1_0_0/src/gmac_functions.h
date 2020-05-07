@@ -32,6 +32,7 @@
 
 #define ASSERT(x) assert(x)
 
+
 /**
  * @brief Function that generates an gmac_AES128_64 Tag
  *

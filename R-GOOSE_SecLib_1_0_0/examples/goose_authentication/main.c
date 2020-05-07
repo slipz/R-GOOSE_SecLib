@@ -77,7 +77,6 @@ int main(int argc, char** argv){
 
   	r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64);
 
-
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
 	printf("buffer:\n  ");
@@ -86,7 +85,9 @@ int main(int argc, char** argv){
     }
 	printf("\n");
 
+	//buffer[INDEX_SPDU_LENGTH+20] = 0x99;
 
+	r_gooseMessage_ValidateGMAC(buffer, key, key_size);
 
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
