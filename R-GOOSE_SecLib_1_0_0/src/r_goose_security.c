@@ -422,6 +422,9 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 	}
 }
 
+
+
+
 int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
 
 }

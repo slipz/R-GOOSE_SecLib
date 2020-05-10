@@ -2,6 +2,8 @@
 #include "hmac_functions.h"
 #include "gmac_functions.h"
 
+#include "aux.h"
+
 
 // Analisar de mudar 1 -> 0x01 tem impacto na performance
 #define MAC_NONE			0
@@ -32,6 +34,9 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
 int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size);
 int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size);
+
+int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id);
+
 
 int decode_4bytesToInt(uint8_t* buffer, int index);
 void encodeInt2Bytes(uint8_t* buffer, uint16_t value, int index);
