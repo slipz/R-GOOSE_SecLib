@@ -31,5 +31,7 @@ uint8_t* hexStringToBytes(char hex[], size_t len){
         pos += 2;
     }
 
+    
+
     return bytes;
 }
