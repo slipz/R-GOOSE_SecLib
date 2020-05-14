@@ -66,7 +66,7 @@
  * @param iv Pointer (<tt>uint8_t*</tt>) containg the initialization vector that will be used to generate the GMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param iv_size Variable (<tt>size_t</tt>) that hold the size in bytes of iv. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where GMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where GMAC tag should be stored
  *
  * @return The function returns 0 if everything went as expected (no errors) or 1 if an error occured.
  *
@@ -76,7 +76,7 @@
  * to store the GMAC tag. 
  */
 int
-gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest);
+gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an gmac_AES128_128 Tag
@@ -111,7 +111,7 @@ gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
  * @param iv Pointer (<tt>uint8_t*</tt>) containg the initialization vector that will be used to generate the GMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param iv_size Variable (<tt>size_t</tt>) that hold the size in bytes of iv. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where GMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where GMAC tag should be stored
  *
  * @return The function returns 0 if everything went as expected (no errors) or 1 if an error occured.
  *
@@ -121,7 +121,7 @@ gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
  * to store the GMAC tag. 
  */
 int
-gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest);
+gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an gmac_AES256_64 Tag
@@ -156,7 +156,7 @@ gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size
  * @param iv Pointer (<tt>uint8_t*</tt>) containg the initialization vector that will be used to generate the GMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param iv_size Variable (<tt>size_t</tt>) that hold the size in bytes of iv. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where GMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where GMAC tag should be stored
  *
  * @return The function returns 0 if everything went as expected (no errors) or 1 if an error occured.
  *
@@ -166,7 +166,7 @@ gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size
  * to store the GMAC tag. 
  */
 int
-gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest);
+gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an gmac_AES256_128 Tag
@@ -201,7 +201,7 @@ gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
  * @param iv Pointer (<tt>uint8_t*</tt>) containg the initialization vector that will be used to generate the GMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param iv_size Variable (<tt>size_t</tt>) that hold the size in bytes of iv. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where GMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where GMAC tag should be stored
  *
  * @return The function returns 0 if everything went as expected (no errors) or 1 if an error occured.
  *
@@ -211,4 +211,4 @@ gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
  * to store the GMAC tag. 
  */
 int
-gmac_AES256_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest);
+gmac_AES256_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest);

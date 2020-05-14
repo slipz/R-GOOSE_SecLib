@@ -60,7 +60,7 @@
  * @param key Pointer (<tt>uint8_t*</tt>) containg the key that will be used to generate the HMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param key_size Variable (<tt>size_t</tt>) that hold the size in bytes of key. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where HMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where HMAC tag should be stored
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
@@ -68,7 +68,7 @@
  * to store the HMAC tag. 
  */
 void 
-hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
+hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an HMAC-SHA256-128 Tag
@@ -97,7 +97,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * @param key Pointer (<tt>uint8_t*</tt>) containg the key that will be used to generate the HMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param key_size Variable (<tt>size_t</tt>) that hold the size in bytes of key. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where HMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where HMAC tag should be stored
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
@@ -105,7 +105,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
  * to store the HMAC tag. 
  */
 void
-hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
+hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an HMAC-SHA256-256 Tag
@@ -134,7 +134,7 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @param key Pointer (<tt>uint8_t*</tt>) containg the key that will be used to generate the HMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param key_size Variable (<tt>size_t</tt>) that hold the size in bytes of key. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where HMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where HMAC tag should be stored
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
@@ -142,7 +142,7 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * to store the HMAC tag. 
  */
 void
-hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
+hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an HMAC-BLAKE2b_80 Tag
@@ -171,13 +171,13 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @param key Pointer (<tt>uint8_t*</tt>) containg the key that will be used to generate the HMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param key_size Variable (<tt>size_t</tt>) that hold the size in bytes of key. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where HMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where HMAC tag should be stored
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
  */
 void
-hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
+hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);
 
 /**
  * @brief Function that generates an HMAC-BLAKE2s_80 Tag
@@ -206,10 +206,10 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @param key Pointer (<tt>uint8_t*</tt>) containg the key that will be used to generate the HMAC Tag
  * @param data_size Variable (<tt>size_t</tt>) that hold the size in bytes of data. 
  * @param key_size Variable (<tt>size_t</tt>) that hold the size in bytes of key. 
- * @param dest key Pointer (<tt>void**</tt>) pointing to the destiny memory address where HMAC tag should be stored
+ * @param dest key Pointer (<tt>uint8_t**</tt>) pointing to the destiny memory address where HMAC tag should be stored
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
  */
 void
-hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest);
+hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);

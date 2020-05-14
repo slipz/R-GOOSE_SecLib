@@ -32,7 +32,7 @@ int main(int argc, char** argv){
 	unsigned char *buffer;
 	long filelen;
 
-	char* filename = "packet";
+	char* filename = "valid_large.pkt";
 
 	fp = fopen(filename, "rb");
 
@@ -46,40 +46,31 @@ int main(int argc, char** argv){
 	fread(buffer, filelen, 1, fp);
 	fclose(fp);
 
-	printf("%d\n",filelen);
-
-	printf("buffer:\n  ");
-    for(int i = 0; i < filelen; i++){
-        printf("%02X ", buffer[i]);
-    }
-    printf("\n\n");
-
     r_goose_dissect(buffer);
 
-	int key_size = 20, iv_size = 12;
+	int key_size = 32, iv_size = 12;
 
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
-  	//r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64);
-
-  	r_gooseMessage_Encrypt(buffer, key, 1, 1, 1, 1, iv, iv_size);
+  	int res = r_gooseMessage_Encrypt(buffer, key, AES_256_GCM, 1, 1, 1, iv, iv_size);
 
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
-	printf("buffer:\n  ");
-    for(int i = 0; i < filelen; i++){
-        printf("%02X ", buffer[i]);
-    }
-	printf("\n");
+	r_goose_dissect(buffer);
 
-	//buffer[INDEX_SPDU_LENGTH+20] = 0x99;
+	if(res == 1){
+		printf("Encryption success\n");
+	}else if(res == 0){
+		printf("Non Encryption success\n");
+	}else{
+		printf("Error while encrypting\n");
+	}
 
-	r_gooseMessage_ValidateGMAC(buffer, key, key_size);
+	int res1 = r_gooseMessage_Decrypt(buffer, key, iv, iv_size);
 
-
-	uint64_t timeElapsed = timespecDiff(&end, &start);
+	r_goose_dissect(buffer);
 
   	long seconds = end.tv_sec - start.tv_sec;
   	long ns = end.tv_nsec - start.tv_nsec;

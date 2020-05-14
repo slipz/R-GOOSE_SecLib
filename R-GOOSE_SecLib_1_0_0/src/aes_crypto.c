@@ -6,7 +6,7 @@ void handleErrors(){
 }
 
 
-int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, void** dest){
+int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, uint8_t** dest){
 
 	EVP_CIPHER_CTX *ctx;
 
@@ -64,7 +64,7 @@ int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
     return ciphertext_len;
 }
 
-int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, void** dest){
+int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, uint8_t** dest){
     EVP_CIPHER_CTX *ctx;
 
     int len;
@@ -119,12 +119,11 @@ int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
     return ciphertext_len;
 }
 
-int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, void** dest){
+int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, uint8_t** dest){
 
     EVP_CIPHER_CTX *ctx;
     int len;
     int plaintext_len;
-    int ret;
 
     int block_size = EVP_CIPHER_block_size(EVP_aes_256_gcm());
     uint8_t* plaintext = (uint8_t*)malloc(sizeof(char)*(data_size+block_size));
@@ -160,7 +159,7 @@ int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
      * Finalise the decryption. A positive return value indicates success,
      * anything else is a failure - the plaintext is not trustworthy.
      */
-    ret = EVP_DecryptFinal_ex(ctx, plaintext + len, &len);
+    EVP_DecryptFinal_ex(ctx, plaintext + len, &len);
 
 
     /* Clean up */
@@ -173,12 +172,11 @@ int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
     return plaintext_len;
 }
 
-int aes_128_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, void** dest){
+int aes_128_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, uint8_t** dest){
 
     EVP_CIPHER_CTX *ctx;
     int len;
     int plaintext_len;
-    int ret;
 
     int block_size = EVP_CIPHER_block_size(EVP_aes_128_gcm());
     uint8_t* plaintext = (uint8_t*)malloc(sizeof(char)*(data_size+block_size));
@@ -214,7 +212,7 @@ int aes_128_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
      * Finalise the decryption. A positive return value indicates success,
      * anything else is a failure - the plaintext is not trustworthy.
      */
-    ret = EVP_DecryptFinal_ex(ctx, plaintext + len, &len);
+    EVP_DecryptFinal_ex(ctx, plaintext + len, &len);
 
 
     /* Clean up */

@@ -25,7 +25,7 @@
 #include "hmac_functions.h"
 
 void
-hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest){
+hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest){
 	unsigned char* tmp = (unsigned char*)calloc(32, sizeof(char));
 	
 	if(*dest == NULL){
@@ -40,7 +40,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, v
 
 
 void
-hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest){
+hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest){
 	unsigned char* tmp = (unsigned char*)calloc(32, sizeof(char));
 	
 	if(*dest == NULL){
@@ -55,7 +55,7 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 
 
 void
-hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest){
+hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest){
 	unsigned char* tmp = (unsigned char*)calloc(32, sizeof(char));
 	
 	if(*dest == NULL){
@@ -73,7 +73,7 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 
 // BLAKE2 variants
 void
-hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest){
+hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest){
 	unsigned char* tmp = (unsigned char*)calloc(64, sizeof(char));
 	
 	if(*dest == NULL){
@@ -87,7 +87,7 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 }
 
 void
-hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, void** dest){
+hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest){
 	unsigned char* tmp = (unsigned char*)calloc(32, sizeof(char));
 	
 	if(*dest == NULL){

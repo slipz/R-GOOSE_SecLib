@@ -53,10 +53,10 @@
 extern const int MAC_SIZES[];
 
 int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
-void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
+int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
 int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size);
 int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size);
 
 int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id, uint8_t* iv, int iv_size);
-int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id, uint8_t* iv, int iv_size);
+int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint8_t* iv, int iv_size);
 void r_goose_dissect(uint8_t* buffer);

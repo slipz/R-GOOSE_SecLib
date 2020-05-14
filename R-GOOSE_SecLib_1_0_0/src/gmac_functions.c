@@ -8,7 +8,7 @@
 
 
 int
-gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest){
+gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest){
 
 	int rc = 0, unused;
 
@@ -72,7 +72,7 @@ gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
 }
 
 int
-gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest){
+gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest){
 
     int rc = 0, unused;
    
@@ -133,7 +133,7 @@ gmac_AES128_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size
 }
 
 int
-gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest){
+gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest){
 
     /* Note: Key should be 256bits long */
 
@@ -199,7 +199,7 @@ gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
 }
 
 int
-gmac_AES256_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, void** dest){
+gmac_AES256_128(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_t iv_size, uint8_t** dest){
 
     /* Note: Key should be 256bits long */
 

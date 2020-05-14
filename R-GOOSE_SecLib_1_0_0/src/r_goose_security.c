@@ -169,6 +169,7 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	
 	// Append Authentication Tag to original buffer (already resized)
 	memcpy(&buffer[new_size-macSize], aux, macSize);
+	return 1;
 }
 
 int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
@@ -188,56 +189,82 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 
 	/* Get Security Info ... */
 
-
 	/* Generate local HMAC from received data */
-
-	uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
-
 	if(alg == HMAC_SHA256_80){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		hmac_SHA256_80(&buffer[2], key, messageSize-4-macSize, key_size, &aux);
+		
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == HMAC_SHA256_128){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		hmac_SHA256_128(&buffer[2], key, messageSize-4-macSize, key_size, &aux);
+		
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == HMAC_SHA256_256){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		hmac_SHA256_256(&buffer[2], key, messageSize-4-macSize, key_size, &aux);
+	
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == HMAC_BLAKE2B_80){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		hmac_BLAKE2b_80(&buffer[2], key, messageSize-4-macSize, key_size, &aux);
+	
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == HMAC_BLAKE2S_80){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		hmac_BLAKE2s_80(&buffer[2], key, messageSize-4-macSize, key_size, &aux);
+	
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == MAC_NONE){
 		// Nothing to do ... but not an error
-		printf("MAC Algorithm is None.\n");
-		// What to do ? Valid, invalid ?
-	}else{
-		// Invalid data
-		perror("Invalid MAC Algorithm byte");
-	}
-
-	printf("index_mac: %d\n",index_mac);
-
-	printf("Calculated tag:\n  ");
-    for(int i = 0; i < macSize; i++){
-        printf("%02x", aux[i]);
-    }
-	printf("\n");
-
-	printf("Expected tag:\n  ");
-    for(int i = 0; i < macSize; i++){
-        printf("%02x", buffer[index_mac+i]);
-    }
-	printf("\n");
-
-	// MAC Tag comparison
-	if(memcmp(aux, &buffer[index_mac], macSize) == 0){
-		// MAC Tag is valid
-		printf("Tag/R-GOOSE Message is Valid\n");
 		return 1;
 	}else{
-		printf("Tag/R-GOOSE Message is Invalid\n");
-		return 0;
+		// Invalid data
+		return -1;
 	}
 }
 
-void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
+int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
 	// Initialize IV - Can be changed
 	uint8_t* iv = (uint8_t*)malloc(sizeof(uint8_t)*12);
 	*(iv + 0) = 0x00;
@@ -263,16 +290,28 @@ void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, i
 	
 	uint8_t* tmp;
 
+	// Reallocate buffer to append MAC Signature field
 	if((tmp = (uint8_t*)realloc(buffer, new_size)) == NULL){
-		// process error
-		// new malloc ? call error ?
-		printf("realloc error\n");
-
+		// This might occur due to following memory being already allocated
+		// Then we need to allocate complete new buffer
+		perror("realloc error");
+		if((tmp = (uint8_t*)malloc(sizeof(char)*new_size)) == NULL){
+			// Not possible to allocate more memory (system memory exausted)
+			// Possible solutions ?
+			perror("2nd malloc error\n");
+			return -1;
+		}else{
+			// Able to malloc new memory
+			// Copy old buffer content to new buffer
+			memcpy(tmp,buffer,messageSize);
+			// Reassign buffer pointer to new memory address
+			buffer = tmp;
+		}
 	}else{
 		buffer = tmp;
 	}
 
-	int index = 16; 											// Aux variable to keep track of current pos in buffer
+	int index = INDEX_SECURITY_INFO; 											// Aux variable to keep track of current pos in buffer
 
 	// Update TimeOfCurrentKey 		- Index = 16
 	encodeInt4Bytes(buffer, (uint32_t)0, index);
@@ -336,6 +375,7 @@ void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, i
 	
 	// Append Authentication Tag to buffer
 	memcpy(&buffer[new_size-macSize], aux, macSize);
+	return 1;
 }
 
 int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
@@ -372,53 +412,74 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 
 	/* Get Security Info ... */
 
-
 	/* Generate local HMAC from received data */
-
-	printf("\nalg : %d\n",alg);
-
-	uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
-
 	if(alg == GMAC_AES256_64){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		gmac_AES256_64(&buffer[2], key, iv, messageSize-4-macSize, iv_size, &aux);
+	
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == GMAC_AES256_128){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		gmac_AES256_128(&buffer[2], key, iv, messageSize-4-macSize, iv_size, &aux);
+		
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == GMAC_AES128_64){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		gmac_AES128_64(&buffer[2], key, iv, messageSize-4-macSize, iv_size, &aux);
+		
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == GMAC_AES128_128){
+		uint8_t* aux = (uint8_t*)malloc(sizeof(uint8_t)*macSize);
+
 		gmac_AES128_128(&buffer[2], key, iv, messageSize-4-macSize, iv_size, &aux);;
+	
+		// MAC Tag comparison
+		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
+			// MAC Tag is valid
+			return 1;
+		}else{
+			return 0;
+		}
+
 	}else if(alg == MAC_NONE){
-		// Nothing to do ... but not an error
-		printf("MAC Algorithm is None.\n");
-		// What to do ? Valid, invalid ?
-	}else{
-		// Invalid data
-		perror("Invalid MAC Algorithm byte");
-	}
+		// Verificar se Signature Length != 0
+		if(buffer[index_mac-1] != 0){
+			// MAC Length changed, packet invalid
+			return 0;
+		}else{
+			return 1;
+		}
 
-	printf("index_mac: %d\n",index_mac);
-
-	printf("Calculated tag:\n  ");
-    for(int i = 0; i < macSize; i++){
-        printf("%02x", aux[i]);
-    }
-	printf("\n");
-
-	printf("Expected tag:\n  ");
-    for(int i = 0; i < macSize; i++){
-        printf("%02x", buffer[index_mac+i]);
-    }
-	printf("\n");
-
-	// MAC Tag comparison
-	if(memcmp(aux, &buffer[index_mac], macSize) == 0){
-		// MAC Tag is valid
-		printf("Tag/R-GOOSE Message is Valid\n");
 		return 1;
 	}else{
-		printf("Tag/R-GOOSE Message is Invalid\n");
-		return 0;
+		// Invalid data
+		return -1;
 	}
+
 }
 
 
@@ -472,7 +533,7 @@ int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t time
 	return -1;
 }
 
-int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id, uint8_t* iv, int iv_size){
+int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint8_t* iv, int iv_size){
 	int ptLen;
 
 	uint8_t* plaintextPayload = NULL;
@@ -483,6 +544,8 @@ int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint32_t timeOfCurrent
 
 	if(alg == 1){
 		// AES-128-GCM	
+		buffer[INDEX_ENCRYPTION_ALG] = 0x00;
+
 		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
 		
 		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
@@ -493,6 +556,7 @@ int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint32_t timeOfCurrent
 
 	}else if(alg == 2){
 		// AES-256-GCM
+		buffer[INDEX_ENCRYPTION_ALG] = 0x00;
 		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
 		
 		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
@@ -548,8 +612,8 @@ void r_goose_dissect(uint8_t* buffer){
 	printf("Session User Information - \n");
 	printf("\tSession Payload Length - "); index = print_hex_values(buffer, index, 4); sessionPayloadLen = decode_4bytesToInt(buffer, INDEX_LENGTH); printf(" : [%d]\n\n", sessionPayloadLen);
 
-	printf("\tPayload Type - %02x : [%d] \n", buffer[index++]);
-	printf("\tSimulation - %02x : [%d] \n", buffer[index++]);
+	printf("\tPayload Type - %02x : [%d] \n", buffer[index], buffer[index]); index++; 
+	printf("\tSimulation - %02x : [%d] \n", buffer[index], buffer[index]); index++;
 	printf("\tAPPID - "); index = print_hex_values(buffer, index, 2); appid = decode_2bytesToInt(buffer, INDEX_APPID); printf(" : [%d]\n", appid);
 	printf("\tAPDU Length - "); index = print_hex_values(buffer, index, 2); apduLength = decode_2bytesToInt(buffer, INDEX_APDU_LENGTH); printf(" : [%d]\n", apduLength);
 	printf("\tGOOSE PDU - \n\t\t"); index = print_hex_values(buffer, index, apduLength-2); 
