@@ -1,4 +1,3 @@
-
 #include "r_goose_security.h"
 
 
@@ -296,8 +295,8 @@ void r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, i
 	index += 4;
 
 	// Update Signature Length 
-	index = new_size - macSize + 1; 
-	buffer[index++] = macSize;
+	index = new_size - macSize - 1; 
+	buffer[index++] = (uint8_t)macSize;
 
 	// Generate Authentication Tag
 
@@ -423,29 +422,145 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 }
 
 
+int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id, uint8_t* iv, int iv_size){
+	int encLen;
+
+	uint8_t* encryptedPayload = NULL;
+
+	int data_size;
+
+	if(alg == 1){
+		// AES-128-GCM
+
+		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
+
+		encodeInt4Bytes(buffer,timeOfCurrentKey,INDEX_TIMECURKEY);
+		encodeInt2Bytes(buffer,timeToNextKey,INDEX_TIMENEXTKEY);
+		encodeInt4Bytes(buffer,key_id,INDEX_KEYID);
+
+		buffer[INDEX_ENCRYPTION_ALG] = 0x01;
+		encLen = aes_128_gcm_encrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &encryptedPayload);
+
+		memcpy(&buffer[INDEX_PAYLOAD], encryptedPayload, encLen);
+
+		return 1;
+
+	}else if(alg == 2){
+		// AES-256-GCM
+
+		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
+
+		encodeInt4Bytes(buffer,timeOfCurrentKey,INDEX_TIMECURKEY);
+		encodeInt2Bytes(buffer,timeToNextKey,INDEX_TIMENEXTKEY);
+		encodeInt4Bytes(buffer,key_id,INDEX_KEYID);
+
+		buffer[INDEX_ENCRYPTION_ALG] = 0x02;
+		encLen = aes_256_gcm_encrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &encryptedPayload);
+
+		memcpy(&buffer[INDEX_PAYLOAD], encryptedPayload, encLen);
+
+		return 1;
+
+	}else if(alg == 0){
+		// Default case ? - None Encryption
+		buffer[INDEX_ENCRYPTION_ALG] = 0x00;
+
+		return 0;
+	}
 
 
-int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
+	return -1;
+}
+
+int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint32_t timeOfCurrentKey, uint16_t timeToNextKey, uint32_t key_id, uint8_t* iv, int iv_size){
+	int ptLen;
+
+	uint8_t* plaintextPayload = NULL;
+
+	uint8_t alg = buffer[INDEX_ENCRYPTION_ALG];
+
+	int data_size;
+
+	if(alg == 1){
+		// AES-128-GCM	
+		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
+		
+		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
+		
+		memcpy(&buffer[INDEX_PAYLOAD], plaintextPayload, ptLen);
+		
+		return 1;
+
+	}else if(alg == 2){
+		// AES-256-GCM
+		data_size = decode_2bytesToInt(buffer,INDEX_APDU_LENGTH) - 2;
+		
+		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
+		
+		memcpy(&buffer[INDEX_PAYLOAD], plaintextPayload, ptLen);
+		
+		return 1;
+
+	}else if(alg == 0){
+		// Default - None Encryption
+		return 0;
+	}
+
+	return -1;
+}
+
+
+int print_hex_values(uint8_t* buffer, int index, int len){
+	for(int i = 0; i < len; i++){
+		printf("%02x ",buffer[index+i]);
+	}
+	return index+len;
+}
+
+
+void r_goose_dissect(uint8_t* buffer){
+
+	int index = 0;
+
+	int spduLength, spduNumber, versionNumber, timeOfCurrentKey, timeToNextKey;
+	int key_id, sessionPayloadLen, appid, apduLength, signatureLength;
+
+	printf("---- R-GOOSE Packet Start ---- \n");
+	printf("Session Header - \n");
+	printf("\tLI - %02x \n",buffer[index++]);
+	printf("\tTI - %02x \n",buffer[index++]);
+	printf("\tSession Identifier - %02x : [%d] \n",buffer[index], buffer[index]);index++;
+	printf("\tLI - %02x \n",buffer[index++]);
+	printf("\tCommon Header - %02x \n",buffer[index++]);
+	printf("\tLI - %02x \n",buffer[index++]);
+	printf("\n");
+	printf("\tSPDU Length - "); index = print_hex_values(buffer, index, 4); spduLength = decode_4bytesToInt(buffer, INDEX_SPDU_LENGTH); printf(" : [%d]\n", spduLength); 
+	printf("\tSPDU Number - "); index = print_hex_values(buffer, index, 4); spduNumber = decode_4bytesToInt(buffer, INDEX_SPDU_NUMBER); printf(" : [%d]\n", spduNumber); 
+	printf("\tVersion Number - "); index = print_hex_values(buffer, index, 2); versionNumber = decode_2bytesToInt(buffer, INDEX_VERSION_NUMBER); printf(" : [%d]\n", versionNumber);
+	printf("\tSecurity Information - \n");
+	printf("\t\tTimeOfCurrentKey - "); index = print_hex_values(buffer, index, 4); timeOfCurrentKey = decode_4bytesToInt(buffer, INDEX_TIMECURKEY); printf(" : [%d]\n", timeOfCurrentKey);
+	printf("\t\tTimeToNextKey - "); index = print_hex_values(buffer, index, 2); timeToNextKey = decode_2bytesToInt(buffer, INDEX_TIMENEXTKEY); printf(" : [%d]\n", timeToNextKey);
+	printf("\t\tSecurity Algorithms - \n");
+	printf("\t\t\tEncryption Algorithm - %02x\n", buffer[index++]);
+	printf("\t\t\tMAC Tag Algorithm - %02x\n", buffer[index++]);
+	printf("\t\tKey ID - "); index = print_hex_values(buffer, index, 4); key_id = decode_4bytesToInt(buffer, INDEX_KEYID); printf(" : [%d]\n\n", key_id);
+
+	printf("Session User Information - \n");
+	printf("\tSession Payload Length - "); index = print_hex_values(buffer, index, 4); sessionPayloadLen = decode_4bytesToInt(buffer, INDEX_LENGTH); printf(" : [%d]\n\n", sessionPayloadLen);
+
+	printf("\tPayload Type - %02x : [%d] \n", buffer[index++]);
+	printf("\tSimulation - %02x : [%d] \n", buffer[index++]);
+	printf("\tAPPID - "); index = print_hex_values(buffer, index, 2); appid = decode_2bytesToInt(buffer, INDEX_APPID); printf(" : [%d]\n", appid);
+	printf("\tAPDU Length - "); index = print_hex_values(buffer, index, 2); apduLength = decode_2bytesToInt(buffer, INDEX_APDU_LENGTH); printf(" : [%d]\n", apduLength);
+	printf("\tGOOSE PDU - \n\t\t"); index = print_hex_values(buffer, index, apduLength-2); 
+
+	printf("\n\tSignature Fields - \n");
+	printf("\t\tSignature TAG - %02x \n", buffer[index++]); 
+	printf("\t\tSignature Length - %02x : [%d] \n", buffer[index], buffer[index]); signatureLength = buffer[index]; index++;
+	printf("\t\tSignature - "); index = print_hex_values(buffer, index, signatureLength);
+
+	printf("\n---- R-GOOSE Packet End ----\n\n");
 
 }
 
-int r_gooseMessage_Decrypt(){
 
-}
-
-
-int decode_4bytesToInt(uint8_t* buffer, int index){
-	return((buffer[index]<<24) + (buffer[index+1]<<16) + (buffer[index+2]<<8) + (buffer[index+3]));
-}
-
-void encodeInt2Bytes(uint8_t* buffer, uint16_t value, int index){
-    buffer[index] 	= (uint8_t)((value & 0xFF00) >> 8 );
-    buffer[index+1] = (uint8_t)((value & 0x00FF)      );
-}
-
-void encodeInt4Bytes(uint8_t* buffer, uint32_t value, int index){
-    buffer[index] 	= (uint8_t)((value & 0xFF000000) >> 24);
-    buffer[index+1] = (uint8_t)((value & 0x00FF0000) >> 16);
-    buffer[index+2] = (uint8_t)((value & 0x0000FF00) >> 8 );
-    buffer[index+3] = (uint8_t)((value & 0x000000FF)      );
-}

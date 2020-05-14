@@ -1,0 +1,50 @@
+215
+buffer:
+  01 40 A0 11 80 11 00 00 00 CD 3B A4 C7 3E 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B9 83 00 03 E8 00 B1 61 81 AC 80 29 73 69 6D 70 6C 65 49 4F 47 65 6E 65 72 69 63 49 4F 2F 4C 4C 4E 30 24 47 4F 24 67 63 62 41 6E 61 6C 6F 67 56 61 6C 75 65 73 81 01 00 82 23 73 69 6D 70 6C 65 49 4F 47 65 6E 65 72 69 63 49 4F 2F 4C 4C 4E 30 24 41 6E 61 6C 6F 67 56 61 6C 75 65 73 83 29 73 69 6D 70 6C 65 49 4F 47 65 6E 65 72 69 63 49 4F 2F 4C 4C 4E 30 24 47 4F 24 67 63 62 41 6E 61 6C 6F 67 56 61 6C 75 65 73 84 08 5E AE FC 41 5D 70 A3 0A 85 01 01 86 01 00 87 01 00 88 01 01 89 01 00 8A 01 03 AB 10 85 02 04 D2 8C 06 00 00 00 00 00 00 85 02 16 2E 85 00 
+
+---- R-GOOSE Packet Start ---- 
+Session Header - 
+	LI - 01 
+	TI - 40 
+	Session Identifier - a0 : [160] 
+	LI - 11 
+	Common Header - 80 
+	LI - 11 
+
+	SPDU Length - 00 00 00 cd  : [205]
+	SPDU Number - 3b a4 c7 3e  : [1000654654]
+	Version Number - 00 01  : [1]
+	Security Information - 
+		TimeOfCurrentKey - 00 00 00 00  : [0]
+		TimeToNextKey - 00 00  : [0]
+		Security Algorithms - 
+			Encryption Algorithm - 00
+			MAC Tag Algorithm - 00
+		Key ID - 00 00 00 00  : [0]
+
+Session User Information - 
+	Session Payload Length - 00 00 00 b9  : [185]
+
+	Payload Type - 83 : [32] 
+	Simulation - 00 : [33] 
+	APPID - 03 e8  : [1000]
+	APDU Length - 00 b1  : [177]
+	GOOSE PDU - 
+		61 81 ac 80 29 73 69 6d 70 6c 65 49 4f 47 65 6e 65 72 69 63 49 4f 2f 4c 4c 4e 30 24 47 4f 24 67 63 62 41 6e 61 6c 6f 67 56 61 6c 75 65 73 81 01 00 82 23 73 69 6d 70 6c 65 49 4f 47 65 6e 65 72 69 63 49 4f 2f 4c 4c 4e 30 24 41 6e 61 6c 6f 67 56 61 6c 75 65 73 83 29 73 69 6d 70 6c 65 49 4f 47 65 6e 65 72 69 63 49 4f 2f 4c 4c 4e 30 24 47 4f 24 67 63 62 41 6e 61 6c 6f 67 56 61 6c 75 65 73 84 08 5e ae fc 41 5d 70 a3 0a 85 01 01 86 01 00 87 01 00 88 01 01 89 01 00 8a 01 03 ab 10 85 02 04 d2 8c 06 00 00 00 00 00 00 85 02 16 2e 
+	Signature Fields - 
+		Signature TAG - 85 
+		Signature Length - 00 : [0] 
+		Signature - 
+---- R-GOOSE Packet End ----
+buffer:
+  01 40 A0 11 80 11 00 00 00 CD 3B A4 C7 3E 00 01 00 00 00 01 00 01 01 00 00 00 00 01 00 00 00 B9 83 00 03 E8 00 B1 A7 36 5E D5 69 A3 68 B8 EB D6 94 C4 94 1C BE 8E 32 0A 05 5E F5 3E AE 27 13 32 5D CD 72 83 21 51 BA 07 F1 B3 41 7B E0 A9 EE BA 11 29 9C 79 37 A8 9D FB 74 0E 8E 86 50 C4 31 20 A4 4F 78 75 6D 80 ED 9E 1B EB 25 80 B7 43 78 5E 35 E8 BD 37 AB 7A 76 3D A6 97 1F 6D 6B 28 8D 4F 8B 42 59 3C E5 97 AB 04 4A 35 6A 8C 45 0F 81 3E 09 12 EA C1 96 B7 A2 33 FB 31 B1 BF 52 B7 63 70 F7 DA 10 DC 73 81 A4 83 AD FC 06 A0 00 B0 21 1C 31 58 68 8B 65 EE 5A 7C 5F AA C1 3A 8C 3F D6 10 A4 0C E5 E2 BA 20 7A D1 69 A6 9B 82 1B 24 C1 20 77 A1 42 71 29 85 00 
+
+alg : 0
+MAC Algorithm is None.
+index_mac: 215
+Calculated tag:
+  
+Expected tag:
+  
+Tag/R-GOOSE Message is Valid
+total secs: 0.000020

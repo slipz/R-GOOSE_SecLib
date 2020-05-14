@@ -22,27 +22,11 @@ int64_t timespecDiff(struct timespec *timeA_p, struct timespec *timeB_p)
 
 int main(int argc, char** argv){
 
-	uint8_t* key = (uint8_t*)malloc(sizeof(uint8_t)*20);
-	*(key + 0) = 0x0b;
-	*(key + 1) = 0x0b;
-	*(key + 2) = 0x0b;
-	*(key + 3) = 0x0b;
-	*(key + 4) = 0x0b;
-	*(key + 5) = 0x0b;
-	*(key + 6) = 0x0b;
-	*(key + 7) = 0x0b;
-	*(key + 8) = 0x0b;
-	*(key + 9) = 0x0b;
-	*(key + 10) = 0x0b;
-	*(key + 11) = 0x0b;
-	*(key + 12) = 0x0b;
-	*(key + 13) = 0x0b;
-	*(key + 14) = 0x0b;
-	*(key + 15) = 0x0b;
-	*(key + 16) = 0x0b;
-	*(key + 17) = 0x0b;
-	*(key + 18) = 0x0b;
-	*(key + 19) = 0x0b;
+	char keyHex[] = "219bcef0cd0f89a5e1297b99d956150f3128459f65312fdd71618f1177393e3f";
+	uint8_t* key = hexStringToBytes(keyHex, 64);
+
+	char ivHex[] = "75b66d3df73da95345c11a32";
+	uint8_t* iv = hexStringToBytes(ivHex,24);
 
 	FILE *fp;
 	unsigned char *buffer;
@@ -70,22 +54,25 @@ int main(int argc, char** argv){
     }
     printf("\n\n");
 
-	int key_size = 20;
+    r_goose_dissect(buffer);
+
+	int key_size = 20, iv_size = 12;
 
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
-  	r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64);
+  	//r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64);
+
+  	r_gooseMessage_Encrypt(buffer, key, 1, 1, 1, 1, iv, iv_size);
+
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
 	printf("buffer:\n  ");
-    for(int i = 0; i < filelen+MAC_SIZES[GMAC_AES256_64]; i++){
+    for(int i = 0; i < filelen; i++){
         printf("%02X ", buffer[i]);
     }
-	printf("\n\n");
-
-	r_goose_dissect(buffer);
+	printf("\n");
 
 	//buffer[INDEX_SPDU_LENGTH+20] = 0x99;
 

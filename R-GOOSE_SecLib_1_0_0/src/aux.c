@@ -1,5 +1,9 @@
 #include "aux.h"
 
+int decode_2bytesToInt(uint8_t* buffer, int index){
+    return((buffer[index]<<8) + (buffer[index+1]));
+}
+
 int decode_4bytesToInt(uint8_t* buffer, int index){
 	return((buffer[index]<<24) + (buffer[index+1]<<16) + (buffer[index+2]<<8) + (buffer[index+3]));
 }
