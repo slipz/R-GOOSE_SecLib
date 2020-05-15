@@ -3,7 +3,7 @@
 #include "gmac_functions.h"
 #include "aes_crypto.h"
 
-#include "aux.h"
+#include "aux_funcs.h"
 
 
 // Analisar de mudar 1 -> 0x01 tem impacto na performance

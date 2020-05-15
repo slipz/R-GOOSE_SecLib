@@ -257,7 +257,7 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 
 	}else if(alg == MAC_NONE){
 		// Nothing to do ... but not an error
-		return 1;
+		return 2;
 	}else{
 		// Invalid data
 		return -1;
@@ -471,7 +471,7 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 			// MAC Length changed, packet invalid
 			return 0;
 		}else{
-			return 1;
+			return 2;
 		}
 
 		return 1;

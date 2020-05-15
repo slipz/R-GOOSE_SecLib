@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "aux.h"
+#include "aux_funcs.h"
 
 //openssl headers
 #include <openssl/evp.h>
