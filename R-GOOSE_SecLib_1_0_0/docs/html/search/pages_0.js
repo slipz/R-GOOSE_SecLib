@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['r_2dgoose_20hmac_2fgmac_20generation_20library_23',['R-GOOSE HMAC/GMAC Generation Library',['../index.html',1,'']]]
+  ['r_2dgoose_20security_20library_61',['R-GOOSE Security Library',['../index.html',1,'']]]
 ];

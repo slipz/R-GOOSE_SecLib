@@ -165,6 +165,8 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 		
 		hmac_BLAKE2s_80(&buffer[2], key, messageSize-4, key_size, &aux);
 
+	}else{
+		return -1;
 	}
 	
 	// Append Authentication Tag to original buffer (already resized)

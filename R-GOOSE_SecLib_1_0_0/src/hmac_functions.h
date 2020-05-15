@@ -2,12 +2,11 @@
 	File declaring hmac functions pointed in IEC 62351-6:2020 	
 */
 
-/*! \mainpage R-GOOSE HMAC/GMAC Generation Library
- *
- * 
+/*! \mainpage R-GOOSE Security Library
+ *		
+ * 	C Library that implements security related functions to be applied on R-GOOSE 
+ * 	Messages, providing Integrity and Confidentiality.
  *	
- *
- * 
  */
 
 /**
