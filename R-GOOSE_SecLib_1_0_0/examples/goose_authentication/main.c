@@ -68,12 +68,14 @@ int main(int argc, char** argv){
 
 	r_goose_dissect(buffer);
 
-
+	int res;
 	//r_gooseMessage_ValidateGMAC(buffer, key, key_size)
-	if( r_gooseMessage_ValidateHMAC(buffer, key, key_size) == 1){
+	if((res = r_gooseMessage_ValidateHMAC(buffer, key, key_size)) == 1){
 		printf("Tag is valid.\n");
+	}else if(res == 2){
+		printf("Packet without Authentication Tag\n");
 	}else{
-		printf("Tag is invalid.\n");
+		printf("Invalid Tag/Packet\n");
 	}
 
 }
