@@ -203,8 +203,10 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
 			return 1;
 		}else{
+			free(aux);
 			return 0;
 		}
 
@@ -216,8 +218,10 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
 			return 1;
 		}else{
+			free(aux);
 			return 0;
 		}
 
@@ -229,8 +233,10 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
 			return 1;
 		}else{
+			free(aux);
 			return 0;
 		}
 
@@ -242,8 +248,10 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
 			return 1;
 		}else{
+			free(aux);
 			return 0;
 		}
 
@@ -255,8 +263,10 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
 			return 1;
 		}else{
+			free(aux);
 			return 0;
 		}
 
@@ -380,6 +390,8 @@ int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	
 	// Append Authentication Tag to buffer
 	memcpy(&buffer[new_size-macSize], aux, macSize);
+	free(aux);
+	free(iv);
 	return 1;
 }
 
@@ -426,8 +438,12 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
+			free(iv);
 			return 1;
 		}else{
+			free(aux);
+			free(iv);
 			return 0;
 		}
 
@@ -439,8 +455,12 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
+			free(iv);
 			return 1;
 		}else{
+			free(aux);
+			free(iv);
 			return 0;
 		}
 
@@ -452,8 +472,12 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
+			free(iv);
 			return 1;
 		}else{
+			free(aux);
+			free(iv);
 			return 0;
 		}
 
@@ -465,8 +489,12 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// MAC Tag comparison
 		if(memcmp(aux, &buffer[index_mac], macSize) == 0){
 			// MAC Tag is valid
+			free(aux);
+			free(iv);
 			return 1;
 		}else{
+			free(aux);
+			free(iv);
 			return 0;
 		}
 
@@ -474,14 +502,17 @@ int r_gooseMessage_ValidateGMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 		// Verificar se Signature Length != 0
 		if(buffer[index_mac-1] != 0){
 			// MAC Length changed, packet invalid
+			free(iv);
 			return 0;
 		}else{
+			free(iv);
 			return 2;
 		}
-
+		free(iv);
 		return 1;
 	}else{
 		// Invalid data
+		free(iv);
 		return -1;
 	}
 

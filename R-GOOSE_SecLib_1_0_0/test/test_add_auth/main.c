@@ -47,12 +47,24 @@ void test(){
 	int key_size = 16;
 
 
-	struct timespec start, end;
-  	clock_gettime(CLOCK_MONOTONIC, &start);
+	
 
   	//r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES128_128);
   	r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80);
 	
+	struct timespec start, end;
+  	clock_gettime(CLOCK_MONOTONIC, &start);
+
+  	int res;
+	//r_gooseMessage_ValidateGMAC(buffer, key, key_size)
+	if((res = r_gooseMessage_ValidateHMAC(buffer, key, key_size)) == 1){
+		printf("Tag is valid.\n");
+	}else if(res == 2){
+		printf("Packet without Authentication Tag\n");
+	}else{
+		printf("Invalid Tag/Packet\n");
+	}
+
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -64,10 +76,6 @@ void test(){
   	double ola = ((double)seconds + (double)ns/(double)1000000000);
 
 	printf("%lf\n",ola);
-
-	if(ola <= 0.00001){
-		r_goose_dissect(buffer);
-	}
 
 	//r_goose_dissect(buffer);
 
