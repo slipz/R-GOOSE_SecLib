@@ -36,6 +36,8 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, u
 	HMAC(EVP_sha256(), key, key_size, data, data_size, tmp, NULL);
 
 	memcpy(*dest, tmp, 10);
+
+	free(tmp);
 }
 
 
@@ -51,6 +53,8 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 	HMAC(EVP_sha256(), key, key_size, data, data_size, tmp, NULL);
 
 	memcpy(*dest, tmp, 16);
+
+	free(tmp);
 }
 
 
@@ -66,6 +70,8 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 	HMAC(EVP_sha256(), key, key_size, data, data_size, tmp, NULL);
 
 	memcpy(*dest, tmp, 32);
+
+	free(tmp);
 }
 
 
@@ -84,6 +90,8 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 	HMAC(EVP_blake2b512(), key, key_size, data, data_size, tmp, NULL);
 
 	memcpy(*dest, tmp, 10);
+
+	free(tmp);
 }
 
 void
@@ -98,6 +106,8 @@ hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
 	HMAC(EVP_blake2s256(), key, key_size, data, data_size, tmp, NULL);
 
 	memcpy(*dest, tmp, 10);
+
+	free(tmp);
 }
 
 

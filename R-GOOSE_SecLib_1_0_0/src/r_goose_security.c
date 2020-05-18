@@ -171,6 +171,9 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	
 	// Append Authentication Tag to original buffer (already resized)
 	memcpy(&buffer[new_size-macSize], aux, macSize);
+
+	// Free memory
+	free(aux);
 	return 1;
 }
 
