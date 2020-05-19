@@ -77,4 +77,12 @@ int main(int argc, char** argv){
 
   	printf("total secs: %lf\n",(double)seconds + (double)ns/(double)1000000000);
 
+  	free(key);
+  	free(data);
+
+  	if(dest != NULL){
+		free(dest);
+  	}
+
+  	
 }

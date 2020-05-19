@@ -129,7 +129,7 @@ extern const int MAC_SIZES[];
  * @warning The packet format must be the same as specified on the top the this page.
  * @warning If an unknown @p alg is given (not specified on r_goose_security.h) the function returns -1, as an error. 
  */
-int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
+int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg, uint8_t** dest);
 
 
 /**
@@ -167,7 +167,7 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
  * long key should be given, although, if AES256-GCM is used, a 32 bytes key should be given. 
  * @note For now, the Initialization Vector (IV) is constant and defined inside the function as all-zeros byte array.
  */
-int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg);
+int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg, uint8_t** dest);
 
 
 /**

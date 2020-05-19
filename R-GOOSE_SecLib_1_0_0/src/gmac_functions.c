@@ -67,6 +67,8 @@ gmac_AES128_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
     }
 
     memcpy(*dest, tmp, 8);
+
+    free(tmp);    
     
     return 0;
 }
@@ -194,6 +196,8 @@ gmac_AES256_64(uint8_t* data, uint8_t* key, uint8_t* iv ,size_t data_size, size_
     }
 
     memcpy(*dest, tmp, 8);
+
+    free(tmp);
     
     return 0;
 }

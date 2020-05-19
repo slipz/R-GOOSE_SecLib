@@ -20,7 +20,7 @@ const int MAC_SIZES[] = {0, 10, 16, 32, 8, 16, 10, 10, 8, 16};
 		To Add:		Authentication TAG		= Signature-length-bytes
 
 */		
-int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
+int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg, uint8_t** dest){
 	
 	int macSize, messageSize, new_size;
 	uint8_t* tmp;
@@ -46,7 +46,7 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	
 
 	// Reallocate buffer to append MAC Signature field
-	if((tmp = (uint8_t*)realloc(buffer, new_size)) == NULL){
+	/*if((tmp = (uint8_t*)realloc(buffer, new_size)) == NULL){
 		// This might occur due to following memory being already allocated
 		// Then we need to allocate complete new buffer
 		perror("realloc error");
@@ -64,8 +64,17 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 		}
 	}else{
 		buffer = tmp;
+	}*/
+
+	*dest = (uint8_t*)malloc(sizeof(char)*new_size);
+	if(*dest == NULL){
+		perror("Memory exausted");
+		return -1;
 	}
 
+	memcpy(*dest, buffer, messageSize);
+
+	tmp = *dest;
 
 	/* Updating Mutable Fields of R-GOOSE Message: 
 			- Security Information:				
@@ -83,23 +92,23 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	int index = INDEX_SECURITY_INFO; 							
 
 	// Update TimeOfCurrentKey 		
-	encodeInt4Bytes(buffer, (uint32_t)0, index);								// Index = 16
+	encodeInt4Bytes(tmp, (uint32_t)0, index);								// Index = 16
 	index += 4;
 
-	// Update TimeToNextKey	   									
-	encodeInt2Bytes(buffer, (uint16_t)0, index);								// Index = 20
+	// Update TimeToNextKey	   										
+	encodeInt2Bytes(tmp, (uint16_t)0, index);								// Index = 20
 	index += 2;
 
 	// Update Security Algorithm
-	buffer[index] = 0x00;														// Index = 22
+	tmp[index] = 0x00;		
 	index += 2;
 
 	// Update Key ID
-	encodeInt4Bytes(buffer, (uint32_t)0, index);								// Index = 24
+	encodeInt4Bytes(tmp, (uint32_t)0, index);								// Index = 24
 	index += 4;
 
 	// Update SPDU Length 
-	encodeInt4Bytes(buffer, (uint32_t)(new_size-10), INDEX_SPDU_LENGTH);		// Index = 6
+	encodeInt4Bytes(tmp, (uint32_t)(new_size-10), INDEX_SPDU_LENGTH);		// Index = 6
 	index += 4;
 
 	/* Update Signature Length
@@ -108,9 +117,9 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 		Signature Length = macSize, depends on the algorithm passed by param
 		VERIFICAR 
 	*/
-	index = new_size - macSize - 1;				
-	buffer[index++] = macSize;			
 
+	index = new_size - macSize - 1;	
+	tmp[index++] = macSize;			
 
 	// Generate Authentication Tag
 
@@ -133,44 +142,44 @@ int r_gooseMessage_InsertHMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	if(alg == HMAC_SHA256_80){
 
 		// MAC Algorithm - 0x01 - HMAC-SHA256-80 as per IEC 62351-6:2020 draft
-		buffer[23] = 0x01;										
-		
-		hmac_SHA256_80(&buffer[2], key, messageSize-4, key_size, &aux);
+		tmp[23] = 0x01;										
+
+		hmac_SHA256_80(&tmp[2], key, messageSize-4, key_size, &aux);
 
 	}else if(alg == HMAC_SHA256_128){
 
 		// MAC Algorithm - 0x02 - HMAC-SHA256-128 as per IEC 62351-6:2020 draft
-		buffer[23] = 0x02;										
+		tmp[23] = 0x02;										
 		
-		hmac_SHA256_128(&buffer[2], key, messageSize-4, key_size, &aux);
+		hmac_SHA256_128(&tmp[2], key, messageSize-4, key_size, &aux);
 
 	}else if(alg == HMAC_SHA256_256){
 
 		// MAC Algorithm - 0x03 - HMAC-SHA256-256 as per IEC 62351-6:2020 draft
-		buffer[23] = 0x03;										
+		tmp[23] = 0x03;										
 		
-		hmac_SHA256_256(&buffer[2], key, messageSize-4, key_size, &aux);
+		hmac_SHA256_256(&tmp[2], key, messageSize-4, key_size, &aux);
 
 	}else if(alg == HMAC_BLAKE2B_80){
 
 		// MAC Algorithm - 0x06 - BLAKE2b padded to 10bytes - Custom made
-		buffer[23] = 0x06;										
+		tmp[23] = 0x06;										
 		
-		hmac_BLAKE2b_80(&buffer[2], key, messageSize-4, key_size, &aux);
+		hmac_BLAKE2b_80(&tmp[2], key, messageSize-4, key_size, &aux);
 
 	}else if(alg == HMAC_BLAKE2S_80){
 
 		// MAC Algorithm - 0x07 - BLAKE2s padded to 10 bytes - Custom made
-		buffer[23] = 0x07;										
+		tmp[23] = 0x07;										
 		
-		hmac_BLAKE2s_80(&buffer[2], key, messageSize-4, key_size, &aux);
+		hmac_BLAKE2s_80(&tmp[2], key, messageSize-4, key_size, &aux);
 
 	}else{
 		return -1;
 	}
 	
 	// Append Authentication Tag to original buffer (already resized)
-	memcpy(&buffer[new_size-macSize], aux, macSize);
+	memcpy(&tmp[new_size-macSize], aux, macSize);
 
 	// Free memory
 	free(aux);
@@ -279,7 +288,7 @@ int r_gooseMessage_ValidateHMAC(uint8_t* buffer, uint8_t* key, size_t key_size){
 	}
 }
 
-int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg){
+int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, int alg, uint8_t** dest){
 	// Initialize IV - Can be changed
 	uint8_t* iv = (uint8_t*)malloc(sizeof(uint8_t)*12);
 	*(iv + 0) = 0x00;
@@ -305,6 +314,7 @@ int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 	
 	uint8_t* tmp;
 
+	/*
 	// Reallocate buffer to append MAC Signature field
 	if((tmp = (uint8_t*)realloc(buffer, new_size)) == NULL){
 		// This might occur due to following memory being already allocated
@@ -324,33 +334,43 @@ int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 		}
 	}else{
 		buffer = tmp;
+	}*/
+
+	*dest = (uint8_t*)malloc(sizeof(char)*new_size);
+	if(*dest == NULL){
+		perror("Memory exausted");
+		return -1;
 	}
+
+	memcpy(*dest, buffer, messageSize);
+
+	tmp = *dest;
 
 	int index = INDEX_SECURITY_INFO; 											// Aux variable to keep track of current pos in buffer
 
 	// Update TimeOfCurrentKey 		- Index = 16
-	encodeInt4Bytes(buffer, (uint32_t)0, index);
+	encodeInt4Bytes(tmp, (uint32_t)0, index);
 	index += 4;
 
 	// Update TimeToNextKey	   		- Index = 20
-	encodeInt2Bytes(buffer, (uint16_t)0, index);
+	encodeInt2Bytes(tmp, (uint16_t)0, index);
 	index += 2;
 
 	// Update Security Algorithm
-	buffer[index] = 0x00;										// Encryption Algorithm
+	tmp[index] = 0x00;										// Encryption Algorithm
 	index += 2;
 
 	// Update Key ID
-	encodeInt4Bytes(buffer, (uint32_t)0, index);
+	encodeInt4Bytes(tmp, (uint32_t)0, index);
 	index += 4;
 
 	// Update SPDU Length 
-	encodeInt4Bytes(buffer, (uint32_t)(new_size-10), 6);		// Index = 6, SPDU Length index
+	encodeInt4Bytes(tmp, (uint32_t)(new_size-10), 6);		// Index = 6, SPDU Length index
 	index += 4;
 
 	// Update Signature Length 
 	index = new_size - macSize - 1; 
-	buffer[index++] = (uint8_t)macSize;
+	tmp[index++] = (uint8_t)macSize;
 
 	// Generate Authentication Tag
 
@@ -358,38 +378,32 @@ int r_gooseMessage_InsertGMAC(uint8_t* buffer, uint8_t* key, size_t key_size, in
 
 	if(alg == GMAC_AES256_64){
 
-		buffer[23] = 0x04;										// MAC Algorithm - 0x04 - GMAC_AES256_64 as per IEC 62351-6:2020 draft
+		tmp[23] = 0x04;										// MAC Algorithm - 0x04 - GMAC_AES256_64 as per IEC 62351-6:2020 draft
 		
-		gmac_AES256_64(&buffer[2], key, iv, messageSize-4, iv_size, &aux);
-
-		/*printf("Calculated tag:\n  ");
-	    for(int i = 0; i < 10; i++){
-	        printf("%02x", aux[i]);
-	    }
-		printf("\n");*/
+		gmac_AES256_64(&tmp[2], key, iv, messageSize-4, iv_size, &aux);
 
 	}else if(alg == GMAC_AES256_128){
 
-		buffer[23] = 0x05;										// MAC Algorithm - 0x05 - GMAC_AES256_128 as per IEC 62351-6:2020 draft
+		tmp[23] = 0x05;										// MAC Algorithm - 0x05 - GMAC_AES256_128 as per IEC 62351-6:2020 draft
 		
-		gmac_AES256_128(&buffer[2], key, iv, messageSize-4, iv_size, &aux);
+		gmac_AES256_128(&tmp[2], key, iv, messageSize-4, iv_size, &aux);
 
 	}else if(alg == GMAC_AES128_64){
 
-		buffer[23] = 0x08;										// MAC Algorithm - 0x08 - Custom made
+		tmp[23] = 0x08;										// MAC Algorithm - 0x08 - Custom made
 		
-		gmac_AES128_64(&buffer[2], key, iv, messageSize-4, iv_size, &aux);
+		gmac_AES128_64(&tmp[2], key, iv, messageSize-4, iv_size, &aux);
 
 	}else if(alg == GMAC_AES128_128){
 
-		buffer[23] = 0x09;										// MAC Algorithm - 0x09 - Custom made
+		tmp[23] = 0x09;										// MAC Algorithm - 0x09 - Custom made
 		
-		gmac_AES128_128(&buffer[2], key, iv, messageSize-4, iv_size, &aux);
+		gmac_AES128_128(&tmp[2], key, iv, messageSize-4, iv_size, &aux);
 
 	}
 	
 	// Append Authentication Tag to buffer
-	memcpy(&buffer[new_size-macSize], aux, macSize);
+	memcpy(&tmp[new_size-macSize], aux, macSize);
 	free(aux);
 	free(iv);
 	return 1;
@@ -540,6 +554,8 @@ int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t time
 
 		memcpy(&buffer[INDEX_PAYLOAD], encryptedPayload, encLen);
 
+		free(encryptedPayload);
+
 		return 1;
 
 	}else if(alg == 2){
@@ -555,6 +571,8 @@ int r_gooseMessage_Encrypt(uint8_t* buffer, uint8_t* key, int alg, uint32_t time
 		encLen = aes_256_gcm_encrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &encryptedPayload);
 
 		memcpy(&buffer[INDEX_PAYLOAD], encryptedPayload, encLen);
+
+		free(encryptedPayload);	
 
 		return 1;
 
@@ -587,6 +605,8 @@ int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint8_t* iv, int iv_si
 		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
 		
 		memcpy(&buffer[INDEX_PAYLOAD], plaintextPayload, ptLen);
+
+		free(plaintextPayload);
 		
 		return 1;
 
@@ -598,6 +618,8 @@ int r_gooseMessage_Decrypt(uint8_t* buffer, uint8_t* key, uint8_t* iv, int iv_si
 		ptLen = aes_256_gcm_decrypt(&buffer[INDEX_PAYLOAD], key, iv, data_size, iv_size, &plaintextPayload);
 		
 		memcpy(&buffer[INDEX_PAYLOAD], plaintextPayload, ptLen);
+
+		free(plaintextPayload);
 		
 		return 1;
 

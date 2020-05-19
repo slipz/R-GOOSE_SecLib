@@ -30,8 +30,5 @@ uint8_t* hexStringToBytes(char hex[], size_t len){
         sscanf(pos, "%2hhx", &bytes[count]);
         pos += 2;
     }
-
-    
-
     return bytes;
 }

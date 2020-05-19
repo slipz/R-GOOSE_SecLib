@@ -58,6 +58,8 @@ int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
     memcpy(*dest, ciphertext, ciphertext_len);
 
+    free(ciphertext);
+
     /* Clean up */
     EVP_CIPHER_CTX_free(ctx);
 
@@ -113,6 +115,8 @@ int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
     memcpy(*dest, ciphertext, ciphertext_len);
 
+    free(ciphertext);
+
     /* Clean up */
     EVP_CIPHER_CTX_free(ctx);
 
@@ -166,6 +170,8 @@ int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
     EVP_CIPHER_CTX_free(ctx);
 
     memcpy(*dest, plaintext, plaintext_len+len);
+
+    free(plaintext);
 
     plaintext_len += len;
 
@@ -221,6 +227,9 @@ int aes_128_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
     memcpy(*dest, plaintext, plaintext_len+len);
 
     plaintext_len += len;
+
+    free(plaintext);
+
 
     return plaintext_len;
 }

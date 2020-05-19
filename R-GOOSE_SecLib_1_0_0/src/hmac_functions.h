@@ -63,6 +63,7 @@
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @warning @p dest memory should be released outside the function (where @p dest is declared) (free())
  * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
  * to store the HMAC tag. 
  */
@@ -100,6 +101,7 @@ hmac_SHA256_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, u
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @warning @p dest memory should be released outside the function (where @p dest is declared) (free())
  * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
  * to store the HMAC tag. 
  */
@@ -137,6 +139,7 @@ hmac_SHA256_128(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @warning @p dest memory should be released outside the function (where @p dest is declared) (free())
  * @note It is not required to manually allocate/reserve memory for @p dest, this functions allocates the necessary memory
  * to store the HMAC tag. 
  */
@@ -174,6 +177,7 @@ hmac_SHA256_256(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @warning @p dest memory should be released outside the function (where @p dest is declared) (free())
  */
 void
 hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);
@@ -209,6 +213,7 @@ hmac_BLAKE2b_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, 
  * @return The function doesn't return any value
  * @warning @p dest should be create as a data type capable of storing the HMAC Tag (ex. <tt>uint8_t*</tt>). However, it's 
  * memory address must be passed to the function and not the pointer itself (<b><tt>&dest</tt></b>)
+ * @warning @p dest memory should be released outside the function (where @p dest is declared) (free())
  */
 void
 hmac_BLAKE2s_80(uint8_t* data, uint8_t* key, size_t data_size, size_t key_size, uint8_t** dest);

@@ -20,19 +20,16 @@ int64_t timespecDiff(struct timespec *timeA_p, struct timespec *timeB_p)
            ((timeB_p->tv_sec * 1000000000) + timeB_p->tv_nsec);
 }
 
-int main(int argc, char** argv){
+void test(){
 
-	// Key Set-up
 	char keyHex[] = "11754cd72aec309bf52f7687212e8957";
 	uint8_t* key = hexStringToBytes(keyHex, 32);
-	int key_size = 16;
 
-	// R-GOOSE Packet Set-up 		-- START --
 	FILE *fp;
 	unsigned char *buffer;
 	long filelen;
 
-	char* filename = "valid_large.pkt";
+	char* filename = "../resources/valid_large.pkt";
 
 	fp = fopen(filename, "rb");
 
@@ -47,61 +44,44 @@ int main(int argc, char** argv){
 	
 	fread(buffer, filelen, 1, fp);
 	fclose(fp);
-	// R-GOOSE Packet Set-up 		-- END --
 
-    r_goose_dissect(buffer);
+	int key_size = 16;
+
+	//r_goose_dissect(buffer);
 
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
+  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
 
-  	// InsertHMAC USAGE 			-- START --
-
-  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES128_128, &dest);
-  	//int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
-
-  	// InsertHMAC USAGE 			-- END --
   	clock_gettime(CLOCK_MONOTONIC, &end);
-
-
-  	// Clean Up 					-- IMPORTANT -- 
   	if(res1 == 1){
   		free(buffer);
   		buffer = dest;
   	}
 
+	
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 
   	long seconds = end.tv_sec - start.tv_sec;
   	long ns = end.tv_nsec - start.tv_nsec;
 
-  	printf("InsertHMAC total secs: %lf\n",(double)seconds + (double)ns/(double)1000000000);
+  	printf("%lf\n",(double)seconds + (double)ns/(double)1000000000);
 
-
-	r_goose_dissect(buffer);
-
-	int res;
-
-	if((res = r_gooseMessage_ValidateGMAC(buffer, key, key_size)) == 1){
-		printf("Tag is valid.\n");
-	}else if(res == 2){
-		printf("Packet without Authentication Tag\n");
-	}else{
-		printf("Invalid Tag/Packet\n");
-	}
-
-	/*if((res = r_gooseMessage_ValidateHMAC(buffer, key, key_size)) == 1){
-		printf("Tag is valid.\n");
-	}else if(res == 2){
-		printf("Packet without Authentication Tag\n");
-	}else{
-		printf("Invalid Tag/Packet\n");
-	}*/
-
-
-	// Clean Up 					-- IMPORTANT -- 
 	free(key);
 	free(buffer);
 
+
 }
+
+
+int main(int argc, char** argv){
+	for(int i = 0; i<500; i++){
+		test();
+	}
+	
+}
+
+
+//gcc -Wall -g main.c ../../../R-GOOSE_SecLib_1_0_0/src/hmac_functions.c ../../../R-GOOSE_SecLib_1_0_0/src/gmac_functions.c ../../../R-GOOSE_SecLib_1_0_0/src/r_goose_security.c ../../../R-GOOSE_SecLib_1_0_0/src/aux_funcs.c ../../../R-GOOSE_SecLib_1_0_0/src/aes_crypto.c -I../../../R-GOOSE_SecLib_1_0_0/src/ -lssl -lcrypto
