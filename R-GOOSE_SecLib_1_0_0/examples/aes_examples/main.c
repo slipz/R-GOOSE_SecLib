@@ -32,11 +32,20 @@ int main(int argc, char** argv){
 
 	char dataHex[] = "341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec";
 	uint8_t* data = hexStringToBytes(dataHex, 102);
+  int data_size = 51;
+
+  //char dataHex[] = "341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec";
+  //uint8_t* data = hexStringToBytes(dataHex, 204);
+  //int data_size = 102;
+
+  //char dataHex[] = "341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec341841a174536a24866b0fd0bf03f3f1ecb247b3e8f5707ea244c85611adfdd26289e30be322a647d5f465e4aa145caa67ccec";
+  //uint8_t* data = hexStringToBytes(dataHex, 816);
+  //int data_size = 408;
 
 	char ivHex[] = "75b66d3df73da95345c11a32";
 	uint8_t* iv = hexStringToBytes(ivHex,24);
 
-	int data_size = 51, iv_size = 12;
+	int iv_size = 12;
 
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
