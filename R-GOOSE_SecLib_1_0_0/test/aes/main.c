@@ -48,18 +48,18 @@ void test(){
 	char keyHex[] = "219bcef0cd0f89a5e1297b99d956150f3128459f65312fdd71618f1177393e3f";
 	uint8_t* key = hexStringToBytes(keyHex, 64);
 
-	char* dataHex = randstring(102);
+	/*char* dataHex = randstring(102);
 	uint8_t* data = hexStringToBytes(dataHex, 102);
-  int data_size = 51;
+  int data_size = 51;*/
 
-  /*char* dataHex = randstring(408);
+  char* dataHex = randstring(408);
   uint8_t* data = hexStringToBytes(dataHex, 408);
-  int data_size = 204;*/
+  int data_size = 204;
 
-  /*char* dataHex = randstring(816);
+/*  char* dataHex = randstring(816);
   uint8_t* data = hexStringToBytes(dataHex, 816);
-  int data_size = 408;*/
-
+  int data_size = 408;
+*/
 	char ivHex[] = "75b66d3df73da95345c11a32";
 	uint8_t* iv = hexStringToBytes(ivHex,24);
 
@@ -71,10 +71,13 @@ void test(){
 
 	//int len = aes_256_gcm_encrypt(data, key, iv, data_size, iv_size, &dest);
 
-	int ret1 = aes_256_gcm_decrypt(dest, key, iv, data_size, iv_size, &dest1);
+	int ret1 = aes_128_gcm_decrypt(data, key, iv, data_size, iv_size, &dest1);
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
+	if(ret1 == -1){
+		printf("error\n");
+	}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 

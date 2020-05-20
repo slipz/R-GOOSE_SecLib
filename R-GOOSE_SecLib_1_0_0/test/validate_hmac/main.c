@@ -60,7 +60,7 @@ void test(){
   		free(buffer);
   		buffer = dest;
   	}
-
+	
 	
   	clock_gettime(CLOCK_MONOTONIC, &start);
   	int res;
@@ -69,7 +69,7 @@ void test(){
 
 	
 	clock_gettime(CLOCK_MONOTONIC, &end);
-
+//	if(res==1){printf("valid\n");}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 

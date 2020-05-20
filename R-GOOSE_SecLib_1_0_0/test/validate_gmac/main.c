@@ -22,8 +22,8 @@ int64_t timespecDiff(struct timespec *timeA_p, struct timespec *timeB_p)
 
 void test(){
 
-	char keyHex[] = "11754cd72aec309bf52f7687212e8957";
-	uint8_t* key = hexStringToBytes(keyHex, 32);
+	char keyHex[] = "11754cd72aec309bf52f7687212e895711754cd72aec309bf52f7687212e8957";
+	uint8_t* key = hexStringToBytes(keyHex, 64);
 
 	FILE *fp;
 	unsigned char *buffer;
@@ -45,19 +45,20 @@ void test(){
 	fread(buffer, filelen, 1, fp);
 	fclose(fp);
 
-	int key_size = 16;
+	int key_size = 32;
 
 	//r_goose_dissect(buffer);
 
 	struct timespec start, end;
   	
 
-  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES128_128, &dest);
+  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64, &dest);
 
   	
   	if(res1 == 1){
   		free(buffer);
   		buffer = dest;
+//		r_goose_dissect(buffer);
   	}
   	
   	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -67,7 +68,8 @@ void test(){
 	res = r_gooseMessage_ValidateGMAC(buffer, key, key_size);
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
-
+	
+//	if(res == 1){printf("valid\n");}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 

@@ -61,7 +61,8 @@ void test(){
 
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
-
+	
+//	r_goose_dissect(buffer);
 
   	long seconds = end.tv_sec - start.tv_sec;
   	long ns = end.tv_nsec - start.tv_nsec;

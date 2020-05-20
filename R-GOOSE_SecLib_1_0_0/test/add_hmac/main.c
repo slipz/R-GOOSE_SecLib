@@ -29,7 +29,7 @@ void test(){
 	unsigned char *buffer;
 	long filelen;
 
-	char* filename = "../resources/valid_large.pkt";
+	char* filename = "../resources/valid_small.pkt";
 
 	fp = fopen(filename, "rb");
 
@@ -60,7 +60,7 @@ void test(){
   		buffer = dest;
   	}
 
-	
+//	r_goose_dissect(buffer);	
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 
