@@ -69,13 +69,12 @@ void test(){
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 
-	int len = aes_256_gcm_encrypt(data, key, iv, data_size, iv_size, &dest);
+	//int len = aes_256_gcm_encrypt(data, key, iv, data_size, iv_size, &dest);
 
-
-	//int ret1 = aes_256_gcm_decrypt(dest, key, iv, data_size, iv_size, &dest1);
-
+	int ret1 = aes_256_gcm_decrypt(dest, key, iv, data_size, iv_size, &dest1);
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
+
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 

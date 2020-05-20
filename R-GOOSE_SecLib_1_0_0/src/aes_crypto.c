@@ -1,10 +1,6 @@
 #include "aes_crypto.h"
 
 
-void handleErrors(){
-	printf("error\n");
-}
-
 
 int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size, int iv_size, uint8_t** dest){
 
@@ -23,28 +19,28 @@ int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
 	/* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        return -1;
 
     /* Initialise the encryption operation. */
     if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, NULL, NULL))
-        handleErrors();
+        return -1;
 
     /*
      * Set IV length if default 12 bytes (96 bits) is not appropriate
      */
     if(1 != EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, iv_size, NULL))
-        handleErrors();
+        return -1;
 
     /* Initialise key and IV */
     if(1 != EVP_EncryptInit_ex(ctx, NULL, NULL, key, iv))
-        handleErrors();
+        return -1;
 
     /*
      * Provide the message to be encrypted, and obtain the encrypted output.
      * EVP_EncryptUpdate can be called multiple times if necessary
      */
     if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, data, data_size))
-        handleErrors();
+        return -1;
     ciphertext_len = len;
 
     /*
@@ -52,7 +48,7 @@ int aes_256_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
      * this stage, but this does not occur in GCM mode
      */
     if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len))
-        handleErrors();
+        return -1;
     ciphertext_len += len;
 
 
@@ -81,28 +77,28 @@ int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
     /* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        return -1;
 
     /* Initialise the encryption operation. */
     if(1 != EVP_EncryptInit_ex(ctx, EVP_aes_128_gcm(), NULL, NULL, NULL))
-        handleErrors();
+        return -1;
 
     /*
      * Set IV length if default 12 bytes (96 bits) is not appropriate
      */
     if(1 != EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, iv_size, NULL))
-        handleErrors();
+        return -1;
 
     /* Initialise key and IV */
     if(1 != EVP_EncryptInit_ex(ctx, NULL, NULL, key, iv))
-        handleErrors();
+        return -1;
 
     /*
      * Provide the message to be encrypted, and obtain the encrypted output.
      * EVP_EncryptUpdate can be called multiple times if necessary
      */
     if(1 != EVP_EncryptUpdate(ctx, ciphertext, &len, data, data_size))
-        handleErrors();
+        return -1;
     ciphertext_len = len;
 
     /*
@@ -110,7 +106,7 @@ int aes_128_gcm_encrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
      * this stage, but this does not occur in GCM mode
      */
     if(1 != EVP_EncryptFinal_ex(ctx, ciphertext + len, &len))
-        handleErrors();
+        return -1;
     ciphertext_len += len;
 
     memcpy(*dest, ciphertext, ciphertext_len);
@@ -137,26 +133,26 @@ int aes_256_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
     /* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        return -1;
 
     /* Initialise the decryption operation. */
     if(!EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, NULL, NULL))
-        handleErrors();
+        return -1;
 
     /* Set IV length. Not necessary if this is 12 bytes (96 bits) */
     if(!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, iv_size, NULL))
-        handleErrors();
+        return -1;
 
     /* Initialise key and IV */
     if(!EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv))
-        handleErrors();
+        return -1;
 
     /*
      * Provide the message to be decrypted, and obtain the plaintext output.
      * EVP_DecryptUpdate can be called multiple times if necessary
      */
     if(!EVP_DecryptUpdate(ctx, plaintext, &len, data, data_size))
-        handleErrors();
+        return -1;
     plaintext_len = len;
 
     /*
@@ -192,26 +188,26 @@ int aes_128_gcm_decrypt(uint8_t* data, uint8_t* key, uint8_t* iv, int data_size,
 
     /* Create and initialise the context */
     if(!(ctx = EVP_CIPHER_CTX_new()))
-        handleErrors();
+        return -1;
 
     /* Initialise the decryption operation. */
     if(!EVP_DecryptInit_ex(ctx, EVP_aes_128_gcm(), NULL, NULL, NULL))
-        handleErrors();
+        return -1;
 
     /* Set IV length. Not necessary if this is 12 bytes (96 bits) */
     if(!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, iv_size, NULL))
-        handleErrors();
+        return -1;
 
     /* Initialise key and IV */
     if(!EVP_DecryptInit_ex(ctx, NULL, NULL, key, iv))
-        handleErrors();
+        return -1;
 
     /*
      * Provide the message to be decrypted, and obtain the plaintext output.
      * EVP_DecryptUpdate can be called multiple times if necessary
      */
     if(!EVP_DecryptUpdate(ctx, plaintext, &len, data, data_size))
-        handleErrors();
+        return -1;
     plaintext_len = len;
 
     /*
