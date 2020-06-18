@@ -53,7 +53,7 @@ void test(){
   	
 
   	//int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES128_128, &dest);
-  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
+  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_BLAKE2S_80, &dest);
 
   	
   	if(res1 == 1){
@@ -69,6 +69,7 @@ void test(){
 
 	
 	clock_gettime(CLOCK_MONOTONIC, &end);
+
 //	if(res==1){printf("valid\n");}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);

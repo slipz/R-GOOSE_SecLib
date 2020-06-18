@@ -52,7 +52,7 @@ void test(){
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
-  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_64, &dest);
+  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES256_128, &dest);
 
   	clock_gettime(CLOCK_MONOTONIC, &end);
   	if(res1 == 1){

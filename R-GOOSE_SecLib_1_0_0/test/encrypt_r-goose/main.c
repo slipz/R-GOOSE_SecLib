@@ -57,7 +57,7 @@ void test(){
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
-  	int res = r_gooseMessage_Encrypt(buffer, key, AES_256_GCM, 1, 1, 1, iv, iv_size);
+  	int res = r_gooseMessage_Encrypt(buffer, key, AES_128_GCM, 1, 1, 1, iv, iv_size);
 
 
 	clock_gettime(CLOCK_MONOTONIC, &end);

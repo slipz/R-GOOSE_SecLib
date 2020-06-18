@@ -29,7 +29,7 @@ void test(){
 	unsigned char *buffer;
 	long filelen;
 
-	char* filename = "../resources/valid_small.pkt";
+	char* filename = "../resources/valid_large.pkt";
 
 	fp = fopen(filename, "rb");
 
@@ -52,7 +52,8 @@ void test(){
 	struct timespec start, end;
   	clock_gettime(CLOCK_MONOTONIC, &start);
 
-  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
+  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_BLAKE2S_80, &dest);
+
 
   	clock_gettime(CLOCK_MONOTONIC, &end);
   	if(res1 == 1){
