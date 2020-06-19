@@ -53,11 +53,15 @@ void test(){
 
 	// R-GOOSE Encrypt Usage
 
+//	r_goose_dissect(buffer);
+
 	struct timespec start, end;
   	
-  	int res = r_gooseMessage_Encrypt(buffer, key, AES_256_GCM, 1, 1, 1, iv, iv_size);
+  	int res = r_gooseMessage_Encrypt(buffer, key, AES_128_GCM, 1, 1, 1, iv, iv_size);
 
 	// R-GOOSE Decrypt Usage
+
+//	r_goose_dissect(buffer);
 
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
