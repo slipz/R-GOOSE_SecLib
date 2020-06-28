@@ -52,14 +52,14 @@ void test(){
 	uint8_t* data = hexStringToBytes(dataHex, 102);
   int data_size = 51;*/
 
-  char* dataHex = randstring(408);
+  /*char* dataHex = randstring(408);
   uint8_t* data = hexStringToBytes(dataHex, 408);
-  int data_size = 204;
+  int data_size = 204;*/
 
-/*  char* dataHex = randstring(816);
+  char* dataHex = randstring(816);
   uint8_t* data = hexStringToBytes(dataHex, 816);
   int data_size = 408;
-*/
+
 	char ivHex[] = "75b66d3df73da95345c11a32";
 	uint8_t* iv = hexStringToBytes(ivHex,24);
 
@@ -68,8 +68,7 @@ void test(){
 	struct timespec start, end;
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
-
-	//int len = aes_256_gcm_encrypt(data, key, iv, data_size, iv_size, &dest);
+	//int ret1 = aes_128_gcm_encrypt(data, key, iv, data_size, iv_size, &dest);
 
 	int ret1 = aes_128_gcm_decrypt(data, key, iv, data_size, iv_size, &dest1);
 
@@ -102,7 +101,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-  for(int i=0; i<1000; i++){
+  for(int i=0; i<500000; i++){
     test();
   }
 }

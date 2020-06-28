@@ -23,7 +23,7 @@ int main(int argc, char** argv){
 
 	uint8_t* dest = NULL;
 
-	uint8_t* key = (uint8_t*)malloc(sizeof(uint8_t)*16);
+	uint8_t* key = (uint8_t*)malloc(sizeof(uint8_t)*32);
 	*(key + 0) = 0x6d;
 	*(key + 1) = 0xfa;
 	*(key + 2) = 0x1a;
@@ -40,6 +40,22 @@ int main(int argc, char** argv){
 	*(key + 13) = 0x66;
 	*(key + 14) = 0x3d;
 	*(key + 15) = 0x18;
+	*(key + 16) = 0xfa;
+	*(key + 17) = 0xfa;
+	*(key + 18) = 0x1a;
+	*(key + 19) = 0x07;
+	*(key + 20) = 0xc1;
+	*(key + 21) = 0x4f;
+	*(key + 22) = 0x97;
+	*(key + 23) = 0x80;
+	*(key + 24) = 0x20;
+	*(key + 25) = 0xac;
+	*(key + 26) = 0xe4;
+	*(key + 27) = 0x50;
+	*(key + 28) = 0xad;
+	*(key + 29) = 0x66;
+	*(key + 30) = 0x3d;
+	*(key + 31) = 0x18;
 
 	uint8_t* iv = (uint8_t*)malloc(sizeof(uint8_t)*12);
 	*(iv + 0) = 0x34;
@@ -55,19 +71,19 @@ int main(int argc, char** argv){
 	*(iv + 10) = 0x0e;
 	*(iv + 11) = 0xc1;
 
-	int data_size = 196, iv_size = 12;
+	int data_size = 572, iv_size = 12;
 
 	uint8_t* data = (uint8_t*)malloc(sizeof(uint8_t)*data_size);
 	memset(data, 0x23, data_size);
 	
 
 
-	for(int j = 0; j<500; j++){
+	for(int j = 0; j<500000; j++){
 
 		struct timespec start, end;
 	  	clock_gettime(CLOCK_MONOTONIC, &start);
 
-		gmac_AES128_128(data, key, iv, data_size, iv_size, &dest);
+		gmac_AES256_128(data, key, iv, data_size, iv_size, &dest);
 
 		clock_gettime(CLOCK_MONOTONIC, &end);
 
@@ -85,7 +101,6 @@ int main(int argc, char** argv){
 	  	printf("%lf\n",(double)seconds + (double)ns/(double)1000000000);
 
 	}
-
 
 
 }

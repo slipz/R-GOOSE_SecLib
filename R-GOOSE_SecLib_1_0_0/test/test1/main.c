@@ -63,18 +63,19 @@ int main(int argc, char** argv){
 
 		clock_gettime(CLOCK_MONOTONIC, &end);
 
-		/*printf("Calculated tag:\n  ");
+		printf("Calculated tag:\n  ");
 	    for(int i = 0; i < 10; i++){
 	        printf("%02x", dest[i]);
 	    }
-		printf("\n");*/
+		printf("\n");
 
 		uint64_t timeElapsed = timespecDiff(&end, &start);
 
 	  	long seconds = end.tv_sec - start.tv_sec;
 	  	long ns = end.tv_nsec - start.tv_nsec;
-
-	  	printf("%lf\n",(double)seconds + (double)ns/(double)1000000000);
+	
+	
+	  	//printf("%lf\n",(double)seconds + (double)ns/(double)1000000000);
 
 	}
 
