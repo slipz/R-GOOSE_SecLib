@@ -58,7 +58,7 @@ void test(){
   	if(res1 == 1){
   		free(buffer);
   		buffer = dest;
-//  		r_goose_dissect(buffer);
+  		//r_goose_dissect(buffer);
 	}
 
 
@@ -79,7 +79,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-	for(int i = 0; i<1000; i++){
+	for(int i = 0; i<500000; i++){
 		test();
 	}
 	

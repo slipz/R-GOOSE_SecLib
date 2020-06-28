@@ -53,7 +53,7 @@ void test(){
 
 	// R-GOOSE Encrypt Usage
 
-//	r_goose_dissect(buffer);
+	//r_goose_dissect(buffer);
 
 	struct timespec start, end;
   	
@@ -61,7 +61,7 @@ void test(){
 
 	// R-GOOSE Decrypt Usage
 
-//	r_goose_dissect(buffer);
+	//r_goose_dissect(buffer);
 
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
@@ -69,7 +69,7 @@ void test(){
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
-//	r_goose_dissect(buffer);
+	//r_goose_dissect(buffer);
 
   	long seconds = end.tv_sec - start.tv_sec;
   	long ns = end.tv_nsec - start.tv_nsec;
@@ -84,7 +84,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-	for(int i=0; i<1000; i++){
+	for(int i=0; i<500000; i++){
 		test();
 	}
 

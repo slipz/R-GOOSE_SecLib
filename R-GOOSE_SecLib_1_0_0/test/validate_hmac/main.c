@@ -47,7 +47,7 @@ void test(){
 
 	int key_size = 16;
 
-	//r_goose_dissect(buffer);
+	
 
 	struct timespec start, end;
   	
@@ -60,7 +60,7 @@ void test(){
   		free(buffer);
   		buffer = dest;
   	}
-	
+	//r_goose_dissect(buffer);
 	
   	clock_gettime(CLOCK_MONOTONIC, &start);
   	int res;
@@ -70,7 +70,7 @@ void test(){
 	
 	clock_gettime(CLOCK_MONOTONIC, &end);
 
-//	if(res==1){printf("valid\n");}
+	//if(res==1){printf("valid\n");}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 
@@ -86,7 +86,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-	for(int i = 0; i<1000; i++){
+	for(int i = 0; i<500000; i++){
 		test();
 	}
 	

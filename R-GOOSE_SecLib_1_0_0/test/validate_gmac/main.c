@@ -58,7 +58,7 @@ void test(){
   	if(res1 == 1){
   		free(buffer);
   		buffer = dest;
-//		r_goose_dissect(buffer);
+		//r_goose_dissect(buffer);
   	}
   	
   	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -69,7 +69,7 @@ void test(){
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	
-//	if(res == 1){printf("valid\n");}
+	//if(res == 1){printf("valid\n");}
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 
@@ -84,7 +84,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-	for(int i = 0; i<1000; i++){
+	for(int i = 0; i<500000; i++){
 		test();
 	}
 	

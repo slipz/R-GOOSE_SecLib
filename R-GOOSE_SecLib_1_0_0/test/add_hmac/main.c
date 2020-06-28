@@ -61,7 +61,7 @@ void test(){
   		buffer = dest;
   	}
 
-//	r_goose_dissect(buffer);	
+	//r_goose_dissect(buffer);	
 
 	uint64_t timeElapsed = timespecDiff(&end, &start);
 
@@ -78,7 +78,7 @@ void test(){
 
 
 int main(int argc, char** argv){
-	for(int i = 0; i<1000; i++){
+	for(int i = 0; i<500000; i++){
 		test();
 	}
 	

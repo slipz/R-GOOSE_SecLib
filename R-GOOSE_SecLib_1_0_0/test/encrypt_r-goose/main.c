@@ -51,7 +51,7 @@ void test(){
 	fread(buffer, filelen, 1, fp);
 	fclose(fp);
 
-
+//r_goose_dissect(buffer);
 	// R-GOOSE Encrypt Usage
 
 	struct timespec start, end;
@@ -62,7 +62,7 @@ void test(){
 
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	
-//	r_goose_dissect(buffer);
+	//r_goose_dissect(buffer);
 
   	long seconds = end.tv_sec - start.tv_sec;
   	long ns = end.tv_nsec - start.tv_nsec;
@@ -78,7 +78,7 @@ void test(){
 
 int main(int argc, char** argv){
 
-	for(int i=0; i<1000; i++){
+	for(int i=0; i<500000; i++){
 		test();
 	}
 
