@@ -52,7 +52,7 @@ int main(int argc, char** argv){
 	
 
 
-	for(int j = 0; j<500; j++){
+	for(int j = 0; j<500000; j++){
 
 		struct timespec start, end;
 	  	clock_gettime(CLOCK_MONOTONIC, &start);

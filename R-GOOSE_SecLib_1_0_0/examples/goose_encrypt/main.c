@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 	FILE *fp;
 	unsigned char *buffer;
 	long filelen;
-	char* filename = "valid_large.pkt";
+	char* filename = "valid_small.pkt";
 	fp = fopen(filename, "rb");
 	fseek(fp, 0, SEEK_END);
 	filelen = ftell(fp);

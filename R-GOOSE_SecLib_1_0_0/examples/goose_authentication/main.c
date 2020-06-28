@@ -32,7 +32,7 @@ int main(int argc, char** argv){
 	unsigned char *buffer;
 	long filelen;
 
-	char* filename = "valid_large.pkt";
+	char* filename = "valid_small.pkt";
 
 	fp = fopen(filename, "rb");
 
@@ -57,7 +57,7 @@ int main(int argc, char** argv){
 
   	// InsertHMAC USAGE 			-- START --
 
-  	int res1 = r_gooseMessage_InsertGMAC(buffer, key, key_size, GMAC_AES128_128, &dest);
+  	int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
   	//int res1 = r_gooseMessage_InsertHMAC(buffer, key, key_size, HMAC_SHA256_80, &dest);
 
   	// InsertHMAC USAGE 			-- END --
@@ -78,12 +78,14 @@ int main(int argc, char** argv){
 
   	printf("InsertHMAC total secs: %lf\n",(double)seconds + (double)ns/(double)1000000000);
 
-
+	buffer[110] = 0x99;
+	
 	r_goose_dissect(buffer);
+
 
 	int res;
 
-	if((res = r_gooseMessage_ValidateGMAC(buffer, key, key_size)) == 1){
+	if((res = r_gooseMessage_ValidateHMAC(buffer, key, key_size)) == 1){
 		printf("Tag is valid.\n");
 	}else if(res == 2){
 		printf("Packet without Authentication Tag\n");
