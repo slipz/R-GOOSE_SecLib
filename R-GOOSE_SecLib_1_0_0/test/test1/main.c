@@ -45,19 +45,21 @@ int main(int argc, char** argv){
 	*(key + 18) = 0x0b;
 	*(key + 19) = 0x0b;
 
-	int data_size = 196 , key_size = 20;
+	int data_size = 572 , key_size = 20;
 
 	uint8_t* data = (uint8_t*)malloc(sizeof(uint8_t)*data_size);
-	memset(data, 0x23, data_size);
+	
 	
 
 
 	for(int j = 0; j<500000; j++){
+		
+		memset(data, (rand() & 0xff), data_size);
 
 		struct timespec start, end;
 	  	clock_gettime(CLOCK_MONOTONIC, &start);
 
-		hmac_BLAKE2s_80(data, key, data_size, key_size, &dest);
+		hmac_SHA256_80(data, key, data_size, key_size, &dest);
 
 		clock_gettime(CLOCK_MONOTONIC, &end);
 
